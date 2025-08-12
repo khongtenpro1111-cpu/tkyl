@@ -35,17 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function loadPosts() {
-        const savedPosts = localStorage.getItem('creativePosts');
-        if (savedPosts) {
-            posts = JSON.parse(savedPosts);
-        } else {
-            posts = [
-                { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", image: "assets/image/1.jpg", likes: 5, comments: [{text:"Đẹp quá bạn ơi!", likes: 0, author: "Khách"}, {text: "Ý tưởng hay thật!", likes: 0, author: "Khách"}] },
-                { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", image: "assets/image/2.jpg", likes: 10, comments: [{text: "Bức ảnh này rất có chiều sâu!", likes: 0, author: "Khách"}, {text: "Thích phong cách này quá.", likes: 0, author: "Khách"}] }
-            ];
-        }
+    const savedPosts = localStorage.getItem('creativePosts');
+    if (savedPosts) {
+        posts = JSON.parse(savedPosts);
+    } else {
+        posts = [
+            // Thêm tên dự án của anh vào đầu đường dẫn
+            { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", image: "/tkyl/assets/image/1.jpg", likes: 5, comments: ["Đẹp quá bạn ơi!", "Ý tưởng hay thật!"] },
+            { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", image: "/tkyl/assets/image/2.jpg", likes: 10, comments: ["Bức ảnh này rất có chiều sâu!", "Thích phong cách này quá."] }
+        ];
     }
-
+}
     function getDailyChallenge() {
         const today = new Date();
         const day = today.getDate();
@@ -349,4 +349,5 @@ document.addEventListener('DOMContentLoaded', () => {
     loadPosts();
     getDailyChallenge();
     updateUI();
+
 });
