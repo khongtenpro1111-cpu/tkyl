@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         posts = [
             // Thêm tên dự án của anh vào đầu đường dẫn
-            { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", image: "/tkyl/assets/image/1.jpg", likes: 5, comments: ["Đẹp quá bạn ơi!", "Ý tưởng hay thật!"] },
-            { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", image: "/tkyl/assets/image/2.jpg", likes: 10, comments: ["Bức ảnh này rất có chiều sâu!", "Thích phong cách này quá."] }
+            { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", image: "/tkyl/1.jpg", likes: 5, comments: ["Đẹp quá bạn ơi!", "Ý tưởng hay thật!"] },
+            { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", image: "/tkyl/2.jpg", likes: 10, comments: ["Bức ảnh này rất có chiều sâu!", "Thích phong cách này quá."] }
         ];
     }
 }
@@ -351,3 +351,4 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUI();
 
 });
+
