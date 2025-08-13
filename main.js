@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
             posts = JSON.parse(savedPosts);
         } else {
             posts = [
-                { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", image: "assets/image/1.jpg", likes: 5, comments: [{text:"Đẹp quá bạn ơi!", likes: 0, author: "Khách"}, {text: "Ý tưởng hay thật!", likes: 0, author: "Khách"}] },
-                { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", image: "assets/image/2.jpg", likes: 10, comments: [{text: "Bức ảnh này rất có chiều sâu!", likes: 0, author: "Khách"}, {text: "Thích phong cách này quá.", likes: 0, author: "Khách"}] }
+                { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", image: "https://imgs.search.brave.com/zwfeD3M7WinD-3qODS0qe2NKy7yPPfdJZ1_TmR6SPp8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9mdW5p/eC5lZHUudm4vd3At/Y29udGVudC91cGxv/YWRzLzIwMjMvMDMv/eHUtaHVvbmctcGhh/dC10cmllbi1jb25n/LW5naGUtdmEtdmEt/dnIuanBn", likes: 5, comments: [{text:"Đẹp quá bạn ơi!", likes: 0, author: "Khách"}, {text: "Ý tưởng hay thật!", likes: 0, author: "Khách"}] },
+                { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", image: "https://imgs.search.brave.com/lJzIBCv6zV2tYRsnZtr-mVT56TDYXXkiZCMkoeDhJM0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/a2llbnRodWMubmV0/LnZuL2ltYWdlcy9j/NDczZDNlMDVlYjA3/MWFkYzIwOWViNGNm/ZmVmNzMzY2NiNjZh/YjQ2Zjc3MGZiY2I0/NzM5NjYwM2VhOTdk/ZTU1OWI1ZWM3ZTU4/ZjdhZGM5NDBlZTQ2/MTU4OTQ5NGRlZWJm/MDgzMGI0MjMzZTkz/N2IwMGM5YWNlMWQ0/MTQwZTZjZjg5MDM5/MmVhZjE5MDNlZGI5/NzBkMmNmNDc2OGY0/ODVhNzEwZTBkYmJk/YTkzM2JkYjcyZmY3/NTFhZDY3NTRjZWQ5/ZTZlMjgyZDRkYmNl/MTU4MDdlOGVkMjM2/MGQwMzgxNy9naWEt/dGh1eWV0LWxhLXZl/LXZ1LXRydS1jby00/LWNoaWV1LWtob25n/LXRob2ktZ2lhbi1I/aW5oLTEwLmpwZw", likes: 10, comments: [{text: "Bức ảnh này rất có chiều sâu!", likes: 0, author: "Khách"}, {text: "Thích phong cách này quá.", likes: 0, author: "Khách"}] }
             ];
         }
     }
@@ -916,3 +916,4 @@ document.addEventListener('DOMContentLoaded', () => {
     getDailyChallenge();
     updateUI();
 });
+
