@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thử Thách Sáng Tạo Mỗi Ngày</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght=400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -37,6 +37,7 @@
 
         <section id="story-section">
             <h2>Kho truyện online</h2>
+            <div id="story-category-container"></div>
             <div id="story-list-container">
             </div>
             <div id="story-content-container" style="display: none;">
@@ -48,6 +49,7 @@
 
         <section id="soft-skills-section">
             <h2>Danh mục Kỹ năng mềm</h2>
+            <div id="soft-skills-category-container"></div>
             <div id="soft-skills-list-container">
             </div>
             <div id="soft-skills-content-container" style="display: none;">
@@ -60,6 +62,9 @@
         <section id="tech-sales-section">
             <div id="product-page">
                 <h2>Danh mục Công nghệ Tương lai <button id="open-cart-btn">🛒 Giỏ hàng</button></h2>
+                <div id="product-search-container">
+                    <input type="text" id="product-search-input" placeholder="Tìm kiếm sản phẩm...">
+                </div>
                 <div id="tech-products-container" class="grid-container">
                     </div>
                 
@@ -76,6 +81,18 @@
             <div id="proposed-challenges-container">
             </div>
             <button id="propose-challenge-btn" style="display: none;">Đề xuất thử thách mới</button>
+        </section>
+        
+        <section id="leaderboard">
+            <h2>🏆 Bảng xếp hạng Người dùng</h2>
+            <div id="leaderboard-container">
+                </div>
+        </section>
+
+        <section id="inspiration-library">
+            <h2>💡 Khơi nguồn Cảm hứng</h2>
+            <div id="inspiration-ideas-container" class="grid-container">
+            </div>
         </section>
 
         <section id="hall-of-fame">
@@ -102,7 +119,8 @@
             <form id="upload-form">
                 <input type="text" id="post-title" placeholder="Tên tác phẩm của bạn" required>
                 <input type="hidden" id="post-id">
-                <input type="file" id="post-image" accept="image/*">
+                <label for="post-file">Chọn file (ảnh, video, audio):</label>
+                <input type="file" id="post-file" accept="image/*,video/*,audio/*">
                 <button type="submit" id="submit-btn">Đăng tác phẩm</button>
             </form>
         </div>
