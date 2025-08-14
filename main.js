@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const challengeForm = document.getElementById('challenge-form');
     const newChallengeInput = document.getElementById('new-challenge-text');
     const proposedChallengesContainer = document.getElementById('proposed-challenges-container');
-    const postImageInput = document.getElementById('post-image');
+    const postFileInput = document.getElementById('post-file');
     const challengeIdInput = document.getElementById('challenge-id');
     
     // Khai báo các phần tử truyện và kỹ năng mềm
@@ -31,12 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const storyTitle = document.getElementById('story-title');
     const storyText = document.getElementById('story-text');
     const backToStoriesBtn = document.getElementById('back-to-stories-btn');
+    const storyCategoryContainer = document.getElementById('story-category-container');
 
-    const softSkillsListContainer = document.getElementById('soft-skills-list-container');
+    const softSkillsListContainer = document = document.getElementById('soft-skills-list-container');
     const softSkillsContentContainer = document.getElementById('soft-skills-content-container');
     const softSkillsTitle = document.getElementById('soft-skills-title');
     const softSkillsText = document.getElementById('soft-skills-text');
     const backToSoftSkillsBtn = document.getElementById('back-to-soft-skills-btn');
+    const softSkillsCategoryContainer = document.getElementById('soft-skills-category-container');
 
     // Khai báo các phần tử bán hàng và giỏ hàng
     const techProductsContainer = document.getElementById('tech-products-container');
@@ -53,6 +55,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeCheckoutBtn = document.getElementById('close-checkout-btn');
     const checkoutForm = document.getElementById('checkout-form');
     const closeBtns = document.querySelectorAll('.close-btn');
+    const leaderboardContainer = document.getElementById('leaderboard-container');
+
+    // Khai báo DOM cho khu vực gợi ý
+    const inspirationIdeasContainer = document.getElementById('inspiration-ideas-container');
+
+    // Khai báo DOM cho tính năng bán hàng
+    const productSearchInput = document.getElementById('product-search-input');
+    
+    // Thêm khai báo DOM cho form upload để có thể reset
+    const uploadForm = document.getElementById('upload-form');
+
 
     let currentUser = localStorage.getItem('currentUser');
     const ADMIN_USER = 'Trung Kien';
@@ -67,51 +80,88 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const stories = [
-        {title: "Chuyến du hành vũ trụ", content: "Trong một đêm trăng tròn, một chú mèo con đã quyết định thực hiện chuyến du hành đầu tiên của mình..." },
-        {title: "Bức tranh bị lãng quên", content: "Một họa sĩ già sống một mình trong căn gác xép, ông luôn giữ một bức tranh đã cũ..." },
-        {title: "Bí mật của khu vườn", content: "Bên trong khu vườn cũ kỹ của bà ngoại là một bí mật mà không ai biết, một cánh cửa dẫn đến thế giới đầy kỳ diệu và ma thuật..." },
-        {title: "Hòn đảo ánh trăng", content: "Mỗi năm một lần, khi trăng lên cao nhất, một hòn đảo nhỏ sẽ hiện lên từ đại dương. Nơi đó chứa đựng những báu vật không thể tưởng tượng..." },
-        {title: "Lời nguyền của chiếc đồng hồ cát", content: "Chiếc đồng hồ cát cổ xưa trong thư viện cất giấu một lời nguyền. Mỗi hạt cát rơi xuống, một ký ức lại tan biến..." },
-        {title: "Thành phố dưới lòng đất", content: "Trong một thế giới hậu tận thế, một nhóm người sống sót đã tìm thấy một thành phố cổ đại dưới lòng đất..." },
-        {title: "Phù thủy và chú rồng con", content: "Một phù thủy già đã dành cả đời mình để tìm kiếm một chú rồng. Nhưng khi tìm thấy, chú rồng đó lại chỉ là một quả trứng nhỏ..." },
-        {title: "Đôi giày biết bay", content: "Một đôi giày cũ đã được trao cho một cậu bé nghèo. Đôi giày đó có phép thuật, có thể giúp cậu bé bay lên trời cao..." },
-        {title: "Chiếc hộp nhạc của thời gian", content: "Chiếc hộp nhạc của bà ngoại có thể đưa một cô bé quay về quá khứ. Cô bé đã dùng chiếc hộp đó để gặp lại cha mẹ của mình..." },
-        {title: "Vùng đất của những giấc mơ", content: "Có một vùng đất mà chỉ những người đang ngủ mới có thể đến. Ở đó, mọi giấc mơ đều trở thành hiện thực..." },
-        {title: "Hạt giống của sự sống", content: "Trong một thế giới khô cằn, một cô gái đã tìm thấy một hạt giống nhỏ. Hạt giống đó có phép thuật, có thể mang lại sự sống cho tất cả mọi thứ..." },
-        {title: "Lá thư từ tương lai", content: "Một lá thư đã được gửi đến một cô gái từ tương lai. Lá thư đó đã tiết lộ cho cô gái biết về những bí mật của thế giới..." },
-        {title: "Chiếc gương của sự thật", content: "Chiếc gương cũ trong căn phòng của một cô gái có thể cho cô gái thấy sự thật của mọi thứ..." },
-        {title: "Tiệm bánh ngọt của các vị thần", content: "Có một tiệm bánh ngọt mà chỉ các vị thần mới có thể đến. Ở đó, mọi loại bánh ngọt đều có phép thuật..." },
-        {title: "Cuộc phiêu lưu của người cuối cùng", content: "Trong một thế giới bị diệt vong, một người đàn ông đã sống sót. Anh đã quyết định thực hiện một cuộc phiêu lưu cuối cùng để tìm kiếm một vùng đất mới..." },
-        {title: "Bóng ma của tòa lâu đài", content: "Trong một tòa lâu đài cổ, có một bóng ma đã sống hàng trăm năm. Bóng ma đó đã chứng kiến nhiều câu chuyện bi thương và đã quyết định giúp một cô gái trẻ tìm thấy hạnh phúc của mình."
-        },
-        {
-            title: "Danh mục kỹ năng mềm",
-            content: "1. Kỹ năng giao tiếp: Giao tiếp hiệu quả là khả năng truyền đạt thông tin một cách rõ ràng, mạch lạc, đồng thời lắng nghe và thấu hiểu người khác.\n2. Kỹ năng làm việc nhóm: Đây là khả năng hợp tác, chia sẻ trách nhiệm và hỗ trợ lẫn nhau để đạt được mục tiêu chung.\n3. Kỹ năng giải quyết vấn đề: Là quá trình phân tích tình huống, tìm ra nguyên nhân và đưa ra các giải pháp hiệu quả.\n4. Kỹ năng tư duy phản biện: Khả năng phân tích, đánh giá thông tin một cách khách quan để đưa ra kết luận hợp lý.\n5. Kỹ năng quản lý thời gian: Tổ chức và sắp xếp công việc một cách hợp lý để hoàn thành mục tiêu đúng hạn.\n6. Kỹ năng thích ứng: Khả năng thay đổi và điều chỉnh hành vi, suy nghĩ để đối phó với những thay đổi và tình huống mới.\n7. Kỹ năng lãnh đạo: Khả năng truyền cảm hứng, hướng dẫn và dẫn dắt một nhóm người để đạt được mục tiêu chung."
+        {title: "Chuyến du hành vũ trụ", category: "Khoa học viễn tưởng", content: "Trong một đêm trăng tròn, một chú mèo con đã quyết định thực hiện chuyến du hành đầu tiên của mình..." },
+        {title: "Bức tranh bị lãng quên", category: "Huyền bí", content: "Một họa sĩ già sống một mình trong căn gác xép, ông luôn giữ một bức tranh đã cũ..." },
+        {title: "Bí mật của khu vườn", category: "Kỳ ảo", content: "Bên trong khu vườn cũ kỹ của bà ngoại là một bí mật mà không ai biết, một cánh cửa dẫn đến thế giới đầy kỳ diệu và ma thuật..." },
+        {title: "Hòn đảo ánh trăng", category: "Kỳ ảo", content: "Mỗi năm một lần, khi trăng lên cao nhất, một hòn đảo nhỏ sẽ hiện lên từ đại dương. Nơi đó chứa đựng những báu vật không thể tưởng tượng..." },
+        {title: "Lời nguyền của chiếc đồng hồ cát", category: "Huyền bí", content: "Chiếc đồng hồ cát cổ xưa trong thư viện cất giấu một lời nguyền. Mỗi hạt cát rơi xuống, một ký ức lại tan biến..." },
+        {title: "Thành phố dưới lòng đất", category: "Khoa học viễn tưởng", content: "Trong một thế giới hậu tận thế, một nhóm người sống sót đã tìm thấy một thành phố cổ đại dưới lòng đất..." },
+        {title: "Phù thủy và chú rồng con", category: "Kỳ ảo", content: "Một phù thủy già đã dành cả đời mình để tìm kiếm một chú rồng. Nhưng khi tìm thấy, chú rồng đó lại chỉ là một quả trứng nhỏ..." },
+        {title: "Đôi giày biết bay", category: "Huyền bí", content: "Một đôi giày cũ đã được trao cho một cậu bé nghèo. Đôi giày đó có phép thuật, có thể giúp cậu bé bay lên trời cao..." },
+        {title: "Chiếc hộp nhạc của thời gian", category: "Khoa học viễn tưởng", content: "Chiếc hộp nhạc của bà ngoại có thể đưa một cô bé quay về quá khứ. Cô bé đã dùng chiếc hộp đó để gặp lại cha mẹ của mình..." },
+        {title: "Vùng đất của những giấc mơ", category: "Kỳ ảo", content: "Có một vùng đất mà chỉ những người đang ngủ mới có thể đến. Ở đó, mọi giấc mơ đều trở thành hiện thực..." },
+        {title: "Hạt giống của sự sống", category: "Kỳ ảo", content: "Trong một thế giới khô cằn, một cô gái đã tìm thấy một hạt giống nhỏ. Hạt giống đó có phép thuật, có thể mang lại sự sống cho tất cả mọi thứ..." },
+        {title: "Lá thư từ tương lai", category: "Khoa học viễn tưởng", content: "Một lá thư đã được gửi đến một cô gái từ tương lai. Lá thư đó đã tiết lộ cho cô gái biết về những bí mật của thế giới..." },
+        {title: "Chiếc gương của sự thật", category: "Huyền bí", content: "Chiếc gương cũ trong căn phòng của một cô gái có thể cho cô gái thấy sự thật của mọi thứ..." },
+        {title: "Tiệm bánh ngọt của các vị thần", category: "Kỳ ảo", content: "Có một tiệm bánh ngọt mà chỉ các vị thần mới có thể đến. Ở đó, mọi loại bánh ngọt đều có phép thuật..." },
+        {title: "Cuộc phiêu lưu của người cuối cùng", category: "Khoa học viễn tưởng", content: "Trong một thế giới bị diệt vong, một người đàn ông đã sống sót. Anh đã quyết định thực hiện một cuộc phiêu lưu cuối cùng để tìm kiếm một vùng đất mới..." },
+        {title: "Bóng ma của tòa lâu đài", category: "Huyền bí", content: "Trong một tòa lâu đài cổ, có một bóng ma đã sống hàng trăm năm. Bóng ma đó đã chứng kiến nhiều câu chuyện bi thương và đã quyết định giúp một cô gái trẻ tìm thấy hạnh phúc của mình."
         }
     ];
+    const storyCategories = ["Tất cả", "Khoa học viễn tưởng", "Huyền bí", "Kỳ ảo"];
 
     const softSkills = [
-        {title: "Kỹ năng giao tiếp", content: "Giao tiếp hiệu quả là khả năng truyền đạt thông tin một cách rõ ràng, mạch lạc, đồng thời lắng nghe và thấu hiểu người khác. Nó bao gồm cả ngôn ngữ cơ thể, giọng nói và thái độ. Giao tiếp tốt giúp xây dựng mối quan hệ, giải quyết xung đột và làm việc nhóm hiệu quả."},
-        {title: "Kỹ năng làm việc nhóm", content: "Làm việc nhóm là khả năng hợp tác, chia sẻ trách nhiệm và hỗ trợ lẫn nhau để đạt được mục tiêu chung. Kỹ năng này đòi hỏi sự tin tưởng, tôn trọng và sự đồng lòng giữa các thành viên. Một nhóm làm việc hiệu quả sẽ tận dụng được điểm mạnh của từng cá nhân."},
-        {title: "Kỹ năng giải quyết vấn đề", content: "Giải quyết vấn đề là quá trình phân tích tình huống, tìm ra nguyên nhân và đưa ra các giải pháp hiệu quả. Kỹ năng này giúp bạn đối mặt với các thách thức trong công việc và cuộc sống một cách bình tĩnh và có hệ thống. Nó bao gồm việc thu thập thông tin, đánh giá các lựa chọn và thực hiện giải pháp."},
-        {title: "Kỹ năng tư duy phản biện", content: "Tư duy phản biện là khả năng phân tích, đánh giá thông tin một cách khách quan để đưa ra kết luận hợp lý. Kỹ năng này giúp bạn tránh bị lừa dối, đưa ra các quyết định sáng suốt và phát triển bản thân. Nó bao gồm việc đặt câu hỏi, phân tích dữ liệu và xem xét nhiều góc độ khác nhau."},
-        {title: "Kỹ năng quản lý thời gian", content: "Quản lý thời gian là tổ chức và sắp xếp công việc một cách hợp lý để hoàn thành mục tiêu đúng hạn. Kỹ năng này giúp bạn làm việc hiệu quả hơn, giảm căng thẳng và có nhiều thời gian hơn cho bản thân. Nó bao gồm việc lập kế hoạch, ưu tiên công việc và tránh trì hoãn."},
-        {title: "Kỹ năng thích ứng", content: "Thích ứng là khả năng thay đổi và điều chỉnh hành vi, suy nghĩ để đối phó với những thay đổi và tình huống mới. Kỹ năng này giúp bạn tồn tại và phát triển trong một môi trường thay đổi liên tục. Nó bao gồm việc học hỏi cái mới, chấp nhận thử thách và tìm kiếm cơ hội từ khó khăn."},
-        {title: "Kỹ năng lãnh đạo", content: "Lãnh đạo là khả năng truyền cảm hứng, hướng dẫn và dẫn dắt một nhóm người để đạt được mục tiêu chung. Kỹ năng này không chỉ dành cho các nhà quản lý mà còn cho bất kỳ ai muốn tạo ra sự ảnh hưởng tích cực đến người khác. Nó bao gồm việc đưa ra quyết định, truyền đạt tầm nhìn và tạo động lực cho đội nhóm."}
+        {title: "Kỹ năng giao tiếp", category: "Giao tiếp", content: "Giao tiếp hiệu quả là khả năng truyền đạt thông tin một cách rõ ràng, mạch lạc, đồng thời lắng nghe và thấu hiểu người khác. Nó bao gồm cả ngôn ngữ cơ thể, giọng nói và thái độ. Giao tiếp tốt giúp xây dựng mối quan hệ, giải quyết xung đột và làm việc nhóm hiệu quả."},
+        {title: "Kỹ năng làm việc nhóm", category: "Làm việc nhóm", content: "Làm việc nhóm là khả năng hợp tác, chia sẻ trách nhiệm và hỗ trợ lẫn nhau để đạt được mục tiêu chung. Kỹ năng này đòi hỏi sự tin tưởng, tôn trọng và sự đồng lòng giữa các thành viên. Một nhóm làm việc hiệu quả sẽ tận dụng được điểm mạnh của từng cá nhân."},
+        {title: "Kỹ năng giải quyết vấn đề", category: "Tư duy", content: "Giải quyết vấn đề là quá trình phân tích tình huống, tìm ra nguyên nhân và đưa ra các giải pháp hiệu quả. Kỹ năng này giúp bạn đối mặt với các thách thức trong công việc và cuộc sống một cách bình tĩnh và có hệ thống. Nó bao gồm việc thu thập thông tin, đánh giá các lựa chọn và thực hiện giải pháp."},
+        {title: "Kỹ năng tư duy phản biện", category: "Tư duy", content: "Tư duy phản biện là khả năng phân tích, đánh giá thông tin một cách khách quan để đưa ra kết luận hợp lý. Kỹ năng này giúp bạn tránh bị lừa dối, đưa ra các quyết định sáng suốt và phát triển bản thân. Nó bao gồm việc đặt câu hỏi, phân tích dữ liệu và xem xét nhiều góc độ khác nhau."},
+        {title: "Kỹ năng quản lý thời gian", category: "Quản lý", content: "Quản lý thời gian là tổ chức và sắp xếp công việc một cách hợp lý để hoàn thành mục tiêu đúng hạn. Kỹ năng này giúp bạn làm việc hiệu quả hơn, giảm căng thẳng và có nhiều thời gian hơn cho bản thân. Nó bao gồm việc lập kế hoạch, ưu tiên công việc và tránh trì hoãn."},
+        {title: "Kỹ năng thích ứng", category: "Phát triển bản thân", content: "Thích ứng là khả năng thay đổi và điều chỉnh hành vi, suy nghĩ để đối phó với những thay đổi và tình huống mới. Kỹ năng này giúp bạn tồn tại và phát triển trong một môi trường thay đổi liên tục. Nó bao gồm việc học hỏi cái mới, chấp nhận thử thách và tìm kiếm cơ hội từ khó khăn."},
+        {title: "Kỹ năng lãnh đạo", category: "Quản lý", content: "Lãnh đạo là khả năng truyền cảm hứng, hướng dẫn và dẫn dắt một nhóm người để đạt được mục tiêu chung. Kỹ năng này không chỉ dành cho các nhà quản lý mà còn cho bất kỳ ai muốn tạo ra sự ảnh hưởng tích cực đến người khác. Nó bao gồm việc đưa ra quyết định, truyền đạt tầm nhìn và tạo động lực cho đội nhóm."}
     ];
+    const softSkillsCategories = ["Tất cả", "Giao tiếp", "Làm việc nhóm", "Tư duy", "Quản lý", "Phát triển bản thân"];
+
 
     const techProducts = [
-        { id: 't1', name: "Kính thực tế ảo X-Vision", description: "Trải nghiệm thế giới ảo sống động như thật với công nghệ X-Vision đột phá.", price: "20.000.000 VNĐ", image: "https://imgs.search.brave.com/brTZo6vVnlDftA6iAeaxo1SFdrwlujy6BMebvGXgvqw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4y/LmZwdHNob3AuY29t/LnZuL3Vuc2FmZS9V/cGxvYWRzL2ltYWdl/cy90aW4tdHVjLzE4/MDU0MC9PcmlnaW5h/bHMva2luaC12ci0x/NC5qcGVn" },
-        { id: 't2', name: "Máy bay không người lái Nano-Drone", description: "Máy bay không người lái siêu nhỏ gọn, điều khiển bằng cử chỉ tay, hoàn hảo cho việc khám phá và quay phim.", price: "5.000.000 VNĐ", image: "https://imgs.search.brave.com/JdIwAMPeWOwCvpSbPyNvUrqORsfWkbqKau_EYu4hrgI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/YmFiYS1ibG9nLmNv/bS8yMDIzLzEyL2Et/d2hpdGUtZHJvbmUt/d2l0aC1hLXByb3Bl/bGxlci1ndWFyZC1v/bi13aGl0ZS1iYWNr/Z3JvdW5kLmpwZWc_/eC1vc3MtcHJvY2Vz/cz1zdHlsZS9mdWxs" },
-        { id: 't3', name: "Đồng hồ thông minh Quantum", description: "Đồng hồ thông minh với màn hình cong linh hoạt, theo dõi sức khỏe toàn diện và kết nối mọi lúc mọi nơi.", price: "12.500.000 VNĐ", image: "https://imgs.search.brave.com/BDjm8Z73-L_QXFlig2Yz8imqZh1D_6i6Qomc8cV86BA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kaWRv/bmd2aWV0LnZuL19u/ZXh0L2ltYWdlP3Vy/bD1odHRwczovL2Nk/bi12Mi5kaWRvbmd2/aWV0LnZuL2ZpbGVz/L3Byb2R1Y3RzLzIw/MjUvNC8xNS8xLzE3/NDcyOTQ5MDA5NDFf/ZG9uZ19ob190aG9u/Z19taW5oX2h1YXdl/aV93YXRjaF9maXRf/NF90aW1fMy5wbmcm/dz0zODQwJnE9NzU" },
-        { id: 't4', name: "Robot trợ lý gia đình A-Bot", description: "Robot A-Bot tự động dọn dẹp, nấu ăn và là người bạn đồng hành thông minh cho cả gia đình.", price: "35.000.000 VNĐ", image: "https://imgs.search.brave.com/qNuiO-XorjVo0w1AjQDnBhvu1AwUOW3gQF7iWWhaQ1A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbnRl/Y2gtZ3JvdXAudm4v/dXBsb2Fkcy9ub2lk/dW5nL2ltYWdlcy9y/b2JvdC1sYS1naS5q/cGc" },
-        { id: 't5', name: "Bút vẽ 3D Holo-Pen", description: "Bút vẽ 3D tạo ra các tác phẩm nghệ thuật trong không gian, mang đến một trải nghiệm sáng tạo hoàn toàn mới.", price: "8.000.000 VNĐ", image: "https://imgs.search.brave.com/JitzBv_q7ff80PrCjak-wNpA2o5xY3uU8TfpUvjTzb0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9iaXp3/ZWIuZGt0Y2RuLm5l/dC90aHVtYi9tZWRp/dW0vMTAwLzQ3Mi8w/OTEvcHJvZHVjdHMv/ejM5NjQ5NTAzNTMy/OTgtZTlkM2I3MTVk/MTI2ODllZjU0N2Y5/NDU4MmJjYTQ4NGUu/anBnP3Y9MTY3MTcz/Mjg4MzM5Nw" }
+        { id: 't1', name: "Kính thực tế ảo X-Vision", description: "Trải nghiệm thế giới ảo sống động như thật với công nghệ X-Vision đột phá.", price: "20.000.000 VNĐ", image: "https://imgs.search.brave.com/brTZo6vVnlDftA6iAeaxo1SFdrwlujy6BMebvGXgvqw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4y/LmZwdHNob3AuY29t/LnZuL3Vuc2FmZS9V/cGxvYWRzL2ltYWdl/cy90aW4tdHVjLzE4/MDU0MC9PcmlnaW5h/bHMva2luaC12ci0x/NC5qcGVn", discount: 15 },
+        { id: 't2', name: "Máy bay không người lái Nano-Drone", description: "Máy bay không người lái siêu nhỏ gọn, điều khiển bằng cử chỉ tay, hoàn hảo cho việc khám phá và quay phim.", price: "5.000.000 VNĐ", image: "https://imgs.search.brave.com/JdIwAMPeWOwCvpSbPyNvUrqORsfWkbqKau_EYu4hrgI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/YmFiYS1ibG9nLmNv/bS8yMDIzLzEyL2Et/d2hpdGUtZHJvbmUt/d2l0aC1hLXByb3Bl/bGxlci1ndWFyZC1v/bi13aGl0ZS1iYWNr/Z3JvdW5kLmpwZWc_/eC1vc3MtcHJvY2Vz/cz1zdHlsZS9mdWxs", discount: 0 },
+        { id: 't3', name: "Đồng hồ thông minh Quantum", description: "Đồng hồ thông minh với màn hình cong linh hoạt, theo dõi sức khỏe toàn diện và kết nối mọi lúc mọi nơi.", price: "12.500.000 VNĐ", image: "https://imgs.search.brave.com/BDjm8Z73-L_QXFlig2Yz8imqZh1D_6i6Qomc8cV86BA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kaWRv/bmd2aWV0LnZuL19u/ZXh0L2ltYWdlP3Vy/bD1odHRwczovL2Nk/bi12Mi5kaWRvbmd2/aWV0LnZuL2ZpbGVz/L3Byb2R1Y3RzLzIw/MjUvNC8xNS8xLzE3/NDcyOTQ5MDA5NDFf/ZG9uZ19ob190aG9u/Z19taW5oX2h1YXdl/aV93YXRjaF9maXRf/NF90aW1fMy5wbmcm/dz0zODQwJnE9NzU", discount: 20 },
+        { id: 't4', name: "Robot trợ lý gia đình A-Bot", description: "Robot A-Bot tự động dọn dẹp, nấu ăn và là người bạn đồng hành thông minh cho cả gia đình.", price: "35.000.000 VNĐ", image: "https://imgs.search.brave.com/qNuiO-XorjVo0w1AjQDnBhvu1AwUOW3gQF7iWWhaQ1A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbnRl/Y2gtZ3JvdXAudm4v/dXBsb2Fkcy9ub2lk/dW5nL2ltYWdlcy9y/b2JvdC1sYS1naS5q/cGc", discount: 10 },
+        { id: 't5', name: "Bút vẽ 3D Holo-Pen", description: "Bút vẽ 3D tạo ra các tác phẩm nghệ thuật trong không gian, mang đến một trải nghiệm sáng tạo hoàn toàn mới.", price: "8.000.000 VNĐ", image: "https://imgs.search.brave.com/JitzBv_q7ff80PrCjak-wNpA2o5xY3uU8TfpUvjTzb0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9iaXp3/ZWIuZGt0Y2RuLm5l/dC90aHVtYi9tZWRp/dW0vMTAwLzQ3Mi8w/OTEvcHJvZHVjdHMv/ejM5NjQ5NTAzNTMy/OTgtZTlkM2I3MTVk/MTI2ODllZjU0N2Y5/NDU4MmJjYTQ4NGUu/anBnP3Y9MTY3MTcz/Mjg4MzM5Nw", discount: 0 }
     ];
 
     // Dữ liệu động
     let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
     let posts = [];
     let proposedChallenges = [];
+    let userPoints = JSON.parse(localStorage.getItem('userPoints')) || {};
+    let productReviews = JSON.parse(localStorage.getItem('productReviews')) || {};
+
+    // Danh sách các gợi ý cảm hứng
+    const inspirationIdeas = [
+        {
+            type: 'image',
+            title: 'Gợi ý hình ảnh',
+            content: 'Hãy vẽ một bức tranh lấy cảm hứng từ bức ảnh này!',
+            mediaUrl: 'https://imgs.search.brave.com/a9c122345/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE1/NTQzNTg5MTM2MTYt/MmY2OTY1MzdlNGM0/P3FzPWdpZiZ3PTMw/MCZhdXRvPWZvcm1h/dCZuY3Jvcz0xJml4/bGliPXJiLTQuMC4z/Jml4aWQ9TW53eUJy/d2hibW89'
+        },
+        {
+            type: 'sound',
+            title: 'Gợi ý âm thanh',
+            content: 'Hãy tưởng tượng tiếng mưa rơi trên mái tôn và viết một đoạn văn hoặc sáng tác một bài thơ về nó.'
+        },
+        {
+            type: 'story',
+            title: 'Gợi ý câu chuyện',
+            content: 'Bắt đầu câu chuyện của bạn với dòng: "Trong ngăn kéo cũ kỹ, tôi tìm thấy một chiếc chìa khóa mà tôi chưa từng thấy bao giờ..."'
+        },
+        {
+            type: 'image',
+            title: 'Gợi ý hình ảnh',
+            content: 'Hãy vẽ một bức tranh lấy cảm hứng từ bức ảnh này!',
+            mediaUrl: 'https://imgs.search.brave.com/a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMudW5zcGxhc2gu/Y29tL3Bob3RvLTE1/Nzc1MjM2NjI4MTkt/OTM0ZThmY2Y1NWMz/P3FzPWdpZiZ3PTMw/MCZhdXRvPWZvcm1h/dCZuY3Jvcz0xJml4/bGliPXJiLTQuMC4z/Jml4aWQ9TW53eUJy/d2hibW89'
+        },
+        {
+            type: 'sound',
+            title: 'Gợi ý âm thanh',
+            content: 'Hãy tưởng tượng tiếng sóng biển vỗ vào bờ cát và viết một bản nhạc hoặc một bài thơ về nó.'
+        },
+        {
+            type: 'story',
+            title: 'Gợi ý câu chuyện',
+            content: 'Bắt đầu câu chuyện của bạn với dòng: "Ánh sáng cuối cùng của mặt trời tắt dần, và cánh cửa bí mật đã mở ra..."'
+        }
+    ];
 
     // Các hàm xử lý dữ liệu (lưu/tải)
     function saveCart() {
@@ -126,8 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
             posts = JSON.parse(savedPosts);
         } else {
             posts = [
-                { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", image: "https://imgs.search.brave.com/zwfeD3M7WinD-3qODS0qe2NKy7yPPfdJZ1_TmR6SPp8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9mdW5p/eC5lZHUudm4vd3At/Y29udGVudC91cGxv/YWRzLzIwMjMvMDMv/eHUtaHVvbmctcGhh/dC10cmllbi1jb25n/LW5naGUtdmEtdmEt/dnIuanBn", likes: 5, comments: [{text:"Đẹp quá bạn ơi!", likes: 0, author: "Khách"}, {text: "Ý tưởng hay thật!", likes: 0, author: "Khách"}] },
-                { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", image: "https://imgs.search.brave.com/lJzIBCv6zV2tYRsnZtr-mVT56TDYXXkiZCMkoeDhJM0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/a2llbnRodWMubmV0/LnZuL2ltYWdlcy9j/NDczZDNlMDVlYjA3/MWFkYzIwOWViNGNm/ZmVmNzMzY2NiNjZh/YjQ2Zjc3MGZiY2I0/NzM5NjYwM2VhOTdk/ZTU1OWI1ZWM3ZTU4/ZjdhZGM5NDBlZTQ2/MTU4OTQ5NGRlZWJm/MDgzMGI0MjMzZTkz/N2IwMGM5YWNlMWQ0/MTQwZTZjZjg5MDM5/MmVhZjE5MDNlZGI5/NzBkMmNmNDc2OGY0/ODVhNzEwZTBkYmJk/YTkzM2JkYjcyZmY3/NTFhZDY3NTRjZWQ5/ZTZlMjgyZDRkYmNl/MTU4MDdlOGVkMjM2/MGQwMzgxNy9naWEt/dGh1eWV0LWxhLXZl/LXZ1LXRydS1jby00/LWNoaWV1LWtob25n/LXRob2ktZ2lhbi1I/aW5oLTEwLmpwZw", likes: 10, comments: [{text: "Bức ảnh này rất có chiều sâu!", likes: 0, author: "Khách"}, {text: "Thích phong cách này quá.", likes: 0, author: "Khách"}] }
+                { id: '1', author: 'Khách', text: "Tác phẩm của bạn A", fileUrl: "https://imgs.search.brave.com/UiYGTHS0pS1cLlLu8ZDug4V4_SBrjeZlS3Rmu8BPIKk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9ob2Fu/Z2hhbW9iaWxlLmNv/bS90aW4tdHVjL3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDIzLzA5/L2hpbmgtbmVuLXZ1/LXRydS0zNC5qcGc", fileType: 'image/jpeg', likes: 5, comments: [{text:"Đẹp quá bạn ơi!", likes: 0, author: "Khách"}, {text: "Ý tưởng hay thật!", likes: 0, author: "Khách"}] },
+                { id: '2', author: 'Khách', text: "Tác phẩm của bạn B", fileUrl: "https://imgs.search.brave.com/zwfeD3M7WinD-3qODS0qe2NKy7yPPfdJZ1_TmR6SPp8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9mdW5p/eC5lZHUudm4vd3At/Y29udGVudC91cGxv/YWRzLzIwMjMvMDMv/eHUtaHVvbmctcGhh/dC10cmllbi1jb25n/LW5naGUtdmEtdmEt/dnIuanBn", fileType: 'image/jpeg', likes: 10, comments: [{text: "Bức ảnh này rất có chiều sâu!", likes: 0, author: "Khách"}, {text: "Thích phong cách này quá.", likes: 0, author: "Khách"}] }
             ];
         }
     }
@@ -144,6 +194,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 { id: 'c2', text: "Vẽ một siêu anh hùng mới", votes: 2, voters: [] },
             ];
         }
+    }
+    
+    function saveUserPoints() {
+        localStorage.setItem('userPoints', JSON.stringify(userPoints));
+    }
+
+    function updateUserPoints(username, pointsToAdd) {
+        if (!userPoints[username]) {
+            userPoints[username] = 0;
+        }
+        userPoints[username] += pointsToAdd;
+        saveUserPoints();
+    }
+
+    function saveProductReviews() {
+        localStorage.setItem('productReviews', JSON.stringify(productReviews));
     }
     
     // Các hàm xử lý giỏ hàng và thanh toán
@@ -237,13 +303,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Các hàm render giao diện
-    function renderStories() {
+    function renderStoryCategories() {
+        storyCategoryContainer.innerHTML = '';
+        storyCategories.forEach(category => {
+            const btn = document.createElement('button');
+            btn.classList.add('category-btn');
+            btn.innerText = category;
+            btn.dataset.category = category;
+            btn.addEventListener('click', () => {
+                renderStories(category);
+            });
+            storyCategoryContainer.appendChild(btn);
+        });
+    }
+
+    function renderStories(filterCategory = "Tất cả") {
         storyListContainer.innerHTML = '';
-        stories.forEach((story, index) => {
+        const filteredStories = filterCategory === "Tất cả" ? stories : stories.filter(s => s.category === filterCategory);
+        
+        filteredStories.forEach((story, index) => {
             const storyElement = document.createElement('div');
             storyElement.classList.add('story-item');
-            storyElement.dataset.index = index;
-            storyElement.innerText = `${index + 1}. ${story.title}`;
+            storyElement.dataset.index = stories.findIndex(s => s.title === story.title); // Find original index
+            storyElement.innerText = `${story.title} (${story.category})`;
             storyListContainer.appendChild(storyElement);
         });
 
@@ -254,23 +336,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 const story = stories[index];
                 storyTitle.innerText = story.title;
                 storyText.innerText = story.content;
+                storyCategoryContainer.style.display = 'none';
                 storyListContainer.style.display = 'none';
                 storyContentContainer.style.display = 'block';
             });
         });
         backToStoriesBtn.addEventListener('click', () => {
+            storyCategoryContainer.style.display = 'flex';
             storyListContainer.style.display = 'grid';
             storyContentContainer.style.display = 'none';
         });
     }
 
-    function renderSoftSkills() {
+    function renderSoftSkillsCategories() {
+        softSkillsCategoryContainer.innerHTML = '';
+        softSkillsCategories.forEach(category => {
+            const btn = document.createElement('button');
+            btn.classList.add('category-btn');
+            btn.innerText = category;
+            btn.dataset.category = category;
+            btn.addEventListener('click', () => {
+                renderSoftSkills(category);
+            });
+            softSkillsCategoryContainer.appendChild(btn);
+        });
+    }
+
+    function renderSoftSkills(filterCategory = "Tất cả") {
         softSkillsListContainer.innerHTML = '';
-        softSkills.forEach((skill, index) => {
+        const filteredSkills = filterCategory === "Tất cả" ? softSkills : softSkills.filter(s => s.category === filterCategory);
+
+        filteredSkills.forEach((skill, index) => {
             const skillElement = document.createElement('div');
             skillElement.classList.add('soft-skills-item');
-            skillElement.dataset.index = index;
-            skillElement.innerText = `${index + 1}. ${skill.title}`;
+            skillElement.dataset.index = softSkills.findIndex(s => s.title === skill.title);
+            skillElement.innerText = `${skill.title} (${skill.category})`;
             softSkillsListContainer.appendChild(skillElement);
         });
 
@@ -281,26 +381,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 const skill = softSkills[index];
                 softSkillsTitle.innerText = skill.title;
                 softSkillsText.innerText = skill.content;
+                softSkillsCategoryContainer.style.display = 'none';
                 softSkillsListContainer.style.display = 'none';
                 softSkillsContentContainer.style.display = 'block';
             });
         });
         backToSoftSkillsBtn.addEventListener('click', () => {
+            softSkillsCategoryContainer.style.display = 'flex';
             softSkillsListContainer.style.display = 'grid';
             softSkillsContentContainer.style.display = 'none';
         });
     }
 
-    function renderTechProducts() {
+    function renderTechProducts(productsToRender = techProducts) {
         techProductsContainer.innerHTML = '';
-        techProducts.forEach(product => {
+        productsToRender.forEach(product => {
+            let priceHtml = `<p class="product-price">Giá: ${product.price}</p>`;
+            if (product.discount > 0) {
+                const originalPrice = parseInt(product.price.replace(/\./g, '').replace(' VNĐ', ''));
+                const discountedPrice = originalPrice * (1 - product.discount / 100);
+                priceHtml = `
+                    <p class="product-price-old">Giá cũ: ${originalPrice.toLocaleString('vi-VN')} VNĐ</p>
+                    <p class="product-price">Giá KM: ${discountedPrice.toLocaleString('vi-VN')} VNĐ</p>
+                    <span class="product-discount-badge">-${product.discount}%</span>
+                `;
+            }
+
             const productElement = document.createElement('div');
             productElement.classList.add('product-item');
             productElement.innerHTML = `
                 <img src="${product.image}" alt="${product.name}">
                 <h3>${product.name}</h3>
                 <p>${product.description}</p>
-                <p class="product-price">Giá: ${product.price}</p>
+                ${priceHtml}
                 <button class="add-to-cart-btn" data-id="${product.id}">Thêm vào giỏ</button>
                 <button class="view-detail-btn" data-id="${product.id}">Xem chi tiết</button>
             `;
@@ -326,12 +439,41 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderProductDetail(productId) {
         const product = techProducts.find(p => p.id === productId);
         if (product) {
+            let priceHtml = `<p class="detail-price">Giá: ${product.price}</p>`;
+            if (product.discount > 0) {
+                const originalPrice = parseInt(product.price.replace(/\./g, '').replace(' VNĐ', ''));
+                const discountedPrice = originalPrice * (1 - product.discount / 100);
+                priceHtml = `
+                    <p class="detail-price-old">Giá cũ: ${originalPrice.toLocaleString('vi-VN')} VNĐ</p>
+                    <p class="detail-price">Giá KM: ${discountedPrice.toLocaleString('vi-VN')} VNĐ <span class="product-discount-badge">-${product.discount}%</span></p>
+                `;
+            }
+
+            const reviews = productReviews[productId] || [];
+            let reviewsHtml = '';
+            if (reviews.length > 0) {
+                reviewsHtml = '<h4>Đánh giá sản phẩm:</h4><ul>';
+                reviews.forEach(review => {
+                    reviewsHtml += `<li><strong>${review.author}</strong>: ${review.text}</li>`;
+                });
+                reviewsHtml += '</ul>';
+            } else {
+                reviewsHtml = '<p>Chưa có đánh giá nào cho sản phẩm này.</p>';
+            }
+
             productDetailContent.innerHTML = `
                 <img src="${product.image}" alt="${product.name}" class="detail-image">
                 <h3 class="detail-title">${product.name}</h3>
                 <p class="detail-description">${product.description}</p>
-                <p class="detail-price">Giá: ${product.price}</p>
+                ${priceHtml}
                 <button class="add-to-cart-btn" data-id="${product.id}">Thêm vào giỏ</button>
+                <div id="review-section">
+                    ${reviewsHtml}
+                    <form id="review-form">
+                        <input type="text" id="review-input" placeholder="Viết đánh giá của bạn..." required>
+                        <button type="submit">Gửi</button>
+                    </form>
+                </div>
             `;
             techProductsContainer.style.display = 'none';
             productDetailContainer.style.display = 'block';
@@ -341,6 +483,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const productId = e.currentTarget.dataset.id;
                 addToCart(productId);
             });
+
+            const reviewForm = document.getElementById('review-form');
+            reviewForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (!currentUser) {
+                    alert("Vui lòng đăng nhập để đánh giá sản phẩm!");
+                    return;
+                }
+                const reviewText = document.getElementById('review-input').value;
+                if (!productReviews[productId]) {
+                    productReviews[productId] = [];
+                }
+                productReviews[productId].push({ author: currentUser, text: reviewText });
+                saveProductReviews();
+                renderProductDetail(productId);
+            });
         }
     }
 
@@ -348,9 +506,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function getDailyChallenge() {
         const today = new Date();
         const day = today.getDate();
-        const topChallenge = proposedChallenges.sort((a, b) => b.votes - a.votes)[0];
         
-        if (topChallenge && day % 7 === 0) {
+        const sortedProposedChallenges = [...proposedChallenges].sort((a, b) => b.votes - a.votes);
+        const topChallenge = sortedProposedChallenges[0];
+        
+        const isWeeklyChallengeDay = day % 7 === 0;
+
+        if (isWeeklyChallengeDay && topChallenge && topChallenge.votes > 0) {
             challengeText.innerText = topChallenge.text;
         } else {
             const challengeIndex = (day - 1) % challenges.length;
@@ -459,6 +621,61 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+    
+    function renderLeaderboard() {
+        leaderboardContainer.innerHTML = '';
+        
+        const sortedUsers = Object.entries(userPoints)
+                                .sort(([,a],[,b]) => b - a)
+                                .slice(0, 10);
+
+        if (sortedUsers.length > 0) {
+            const list = document.createElement('ol');
+            sortedUsers.forEach(([username, points], index) => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('leaderboard-item');
+                listItem.innerHTML = `
+                    <span class="leaderboard-rank">${index + 1}.</span>
+                    <span class="leaderboard-user">${username}</span>
+                    <span class="leaderboard-points">${points} điểm</span>
+                `;
+                list.appendChild(listItem);
+            });
+            leaderboardContainer.appendChild(list);
+        } else {
+            leaderboardContainer.innerHTML = '<p>Chưa có ai ghi điểm. Hãy là người đầu tiên!</p>';
+        }
+    }
+    
+    function renderInspiration() {
+        if (!inspirationIdeasContainer) return;
+
+        inspirationIdeasContainer.innerHTML = '';
+        
+        // Tạo một bản sao của mảng để không thay đổi mảng gốc
+        const shuffledIdeas = [...inspirationIdeas].sort(() => 0.5 - Math.random());
+        
+        // Lấy 3 gợi ý ngẫu nhiên
+        const randomIdeas = shuffledIdeas.slice(0, 3);
+        
+        randomIdeas.forEach(idea => {
+            const ideaElement = document.createElement('div');
+            ideaElement.classList.add('idea-item');
+
+            let contentHtml = '';
+            if (idea.type === 'image' && idea.mediaUrl) {
+                contentHtml = `<img src="${idea.mediaUrl}" alt="${idea.title}" style="width: 100%; border-radius: 8px;">`;
+            }
+            
+            ideaElement.innerHTML = `
+                <h3>${idea.title}</h3>
+                ${contentHtml}
+                <p>${idea.content}</p>
+            `;
+            
+            inspirationIdeasContainer.appendChild(ideaElement);
+        });
+    }
 
     function renderPosts(filteredPosts = posts) {
         postsContainer.innerHTML = '';
@@ -470,13 +687,21 @@ document.addEventListener('DOMContentLoaded', () => {
             postHeader.classList.add('post-header');
             postHeader.innerHTML = `<h4>${post.author}</h4>`;
             
-            if (post.image) {
-                const imageElement = document.createElement('img');
-                imageElement.src = post.image;
-                imageElement.alt = post.text;
-                postElement.appendChild(imageElement);
+            let mediaHtml = '';
+            if (post.fileType && post.fileUrl) {
+                if (post.fileType.startsWith('image')) {
+                    mediaHtml = `<img src="${post.fileUrl}" alt="${post.text}">`;
+                } else if (post.fileType.startsWith('video')) {
+                    mediaHtml = `<video controls src="${post.fileUrl}"></video>`;
+                } else if (post.fileType.startsWith('audio')) {
+                    mediaHtml = `<audio controls src="${post.fileUrl}"></audio>`;
+                }
             }
             
+            if (mediaHtml) {
+                postElement.appendChild(document.createRange().createContextualFragment(mediaHtml));
+            }
+
             if (post.text) {
                 const textElement = document.createElement('p');
                 textElement.innerText = post.text;
@@ -534,9 +759,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 const post = posts.find(p => p.id === id);
                 if (post) {
                     post.likes = (post.likes || 0) + 1;
+                    updateUserPoints(post.author, 5); // Tăng điểm cho tác giả khi được thích
                     savePosts();
                     renderPosts();
                     renderTopPosts();
+                    renderLeaderboard(); // Cập nhật lại leaderboard
                 }
             });
         });
@@ -554,8 +781,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                         const newComment = {text: commentText, likes: 0, author: currentUser};
                         post.comments.push(newComment);
+                        updateUserPoints(currentUser, 2); // Tăng điểm khi bình luận
                         savePosts();
                         renderPosts();
+                        renderLeaderboard(); // Cập nhật lại leaderboard
                     }
                 } else if (e.key === 'Enter' && !currentUser) {
                     alert("Vui lòng đăng nhập để bình luận!");
@@ -660,11 +889,19 @@ document.addEventListener('DOMContentLoaded', () => {
             postHeader.classList.add('post-header');
             postHeader.innerHTML = `<h4>${post.author}</h4>`;
             
-            if (post.image) {
-                const imageElement = document.createElement('img');
-                imageElement.src = post.image;
-                imageElement.alt = post.text;
-                postElement.appendChild(imageElement);
+            let mediaHtml = '';
+            if (post.fileType && post.fileUrl) {
+                if (post.fileType.startsWith('image')) {
+                    mediaHtml = `<img src="${post.fileUrl}" alt="${post.text}">`;
+                } else if (post.fileType.startsWith('video')) {
+                    mediaHtml = `<video controls src="${post.fileUrl}"></video>`;
+                } else if (post.fileType.startsWith('audio')) {
+                    mediaHtml = `<audio controls src="${post.fileUrl}"></audio>`;
+                }
+            }
+
+            if (mediaHtml) {
+                postElement.appendChild(document.createRange().createContextualFragment(mediaHtml));
             }
             
             if (post.text) {
@@ -700,9 +937,13 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPosts();
         renderTopPosts();
         renderProposedChallenges();
+        renderStoryCategories();
         renderStories();
+        renderSoftSkillsCategories();
         renderSoftSkills();
         renderTechProducts();
+        renderLeaderboard();
+        renderInspiration();
         productDetailContainer.style.display = 'none';
         techProductsContainer.style.display = 'grid';
     }
@@ -725,76 +966,99 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Xử lý sự kiện đăng bài
-    uploadFormModal.addEventListener('submit', (e) => {
+    uploadForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const postId = postIdInput.value;
         const postTitle = postTitleInput.value;
-        const postImageFile = postImageInput.files.length > 0 ? postImageInput.files[0] : null;
+        const postFile = postFileInput.files.length > 0 ? postFileInput.files[0] : null;
 
-        if (!postTitle && !postImageFile) {
-            alert("Vui lòng nhập tiêu đề hoặc chọn một hình ảnh!");
+        if (!postTitle && !postFile) {
+            alert("Vui lòng nhập tiêu đề hoặc chọn một file!");
+            return;
+        }
+
+        // Kiểm tra kích thước file để tránh lỗi QuotaExceededError
+        const maxFileSize = 2 * 1024 * 1024; // Giới hạn 2MB
+        if (postFile && postFile.size > maxFileSize) {
+            alert("Kích thước file quá lớn! Vui lòng chọn file có dung lượng dưới 2MB.");
             return;
         }
 
         if (postId) {
+            console.log("Cập nhật bài đăng...");
             const postToUpdate = posts.find(p => p.id === postId);
             if (postToUpdate) {
                 postToUpdate.text = postTitle;
-                if (postImageFile) {
+                if (postFile) {
                     const reader = new FileReader();
                     reader.onloadend = () => {
-                        postToUpdate.image = reader.result;
+                        postToUpdate.fileUrl = reader.result;
+                        postToUpdate.fileType = postFile.type;
                         savePosts();
                         renderPosts();
                         renderTopPosts();
                         uploadFormModal.style.display = "none";
                         uploadForm.reset();
-                        submitBtn.innerText = 'Đăng tác phẩm';
+                        submitBtn.innerText = 'Cập nhật';
+                        console.log("Đã cập nhật bài đăng thành công.");
                     };
-                    reader.readAsDataURL(postImageFile);
+                    reader.readAsDataURL(postFile);
                 } else {
-                    postToUpdate.image = null;
+                    postToUpdate.fileUrl = null;
+                    postToUpdate.fileType = null;
                     savePosts();
                     renderPosts();
                     renderTopPosts();
                     uploadFormModal.style.display = "none";
                     uploadForm.reset();
-                    submitBtn.innerText = 'Đăng tác phẩm';
+                    submitBtn.innerText = 'Cập nhật';
+                    console.log("Đã cập nhật bài đăng thành công (không có file).");
                 }
             }
         } else {
+            console.log("Đăng bài mới...");
             if (currentUser) {
                 const newPost = {
                     id: Date.now().toString(),
                     author: currentUser,
                     text: postTitle,
-                    image: null,
+                    fileUrl: null,
+                    fileType: null,
                     likes: 0,
                     comments: []
                 };
 
-                if (postImageFile) {
+                if (postFile) {
                     const reader = new FileReader();
                     reader.onloadend = () => {
-                        newPost.image = reader.result;
+                        console.log("FileReader đã đọc xong. Loại file:", postFile.type);
+                        newPost.fileUrl = reader.result;
+                        newPost.fileType = postFile.type;
                         posts.unshift(newPost);
+                        updateUserPoints(currentUser, 10);
                         savePosts();
                         renderPosts();
                         renderTopPosts();
+                        renderLeaderboard();
                         uploadFormModal.style.display = "none";
                         uploadForm.reset();
+                        console.log("Đã đăng bài mới có file thành công.");
                     };
-                    reader.readAsDataURL(postImageFile);
+                    reader.readAsDataURL(postFile);
                 } else {
                     posts.unshift(newPost);
+                    updateUserPoints(currentUser, 10);
                     savePosts();
                     renderPosts();
                     renderTopPosts();
+                    renderLeaderboard();
                     uploadFormModal.style.display = "none";
                     uploadForm.reset();
+                    console.log("Đã đăng bài mới không có file thành công.");
                 }
             } else {
                 alert("Vui lòng đăng nhập để gửi tác phẩm!");
+                console.log("Người dùng chưa đăng nhập. Không thể đăng bài.");
             }
         }
     });
@@ -804,7 +1068,7 @@ document.addEventListener('DOMContentLoaded', () => {
             uploadFormModal.style.display = "block";
             postTitleInput.value = '';
             postIdInput.value = '';
-            postImageInput.value = '';
+            postFileInput.value = '';
             submitBtn.innerText = 'Đăng tác phẩm';
         } else {
             alert("Vui lòng đăng nhập để gửi tác phẩm!");
@@ -910,10 +1174,18 @@ document.addEventListener('DOMContentLoaded', () => {
         renderPosts(filteredPosts);
     });
 
+    productSearchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        const filteredProducts = techProducts.filter(product =>
+            product.name.toLowerCase().includes(query) ||
+            product.description.toLowerCase().includes(query)
+        );
+        renderTechProducts(filteredProducts);
+    });
+
     // Gọi các hàm khởi tạo khi trang tải xong
     loadPosts();
     loadChallenges();
     getDailyChallenge();
     updateUI();
 });
-
