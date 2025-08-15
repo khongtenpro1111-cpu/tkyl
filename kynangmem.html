@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục Kỹ năng mềm</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Danh mục Kỹ năng mềm</h1>
+    </header>
+    <main>
+        <section id="soft-skills-section">
+            <div id="soft-skills-category-container"></div>
+            <div id="soft-skills-list-container"></div>
+            <div id="soft-skills-content-container" style="display: none;">
+                <button id="back-to-soft-skills-btn">Quay lại danh sách</button>
+                <h3 id="soft-skills-title"></h3>
+                <div id="soft-skills-text"></div>
+            </div>
+        </section>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const softSkillsListContainer = document.getElementById('soft-skills-list-container');
+            const softSkillsContentContainer = document.getElementById('soft-skills-content-container');
+            const softSkillsTitle = document.getElementById('soft-skills-title');
+            const softSkillsText = document.getElementById('soft-skills-text');
+            const backToSoftSkillsBtn = document.getElementById('back-to-soft-skills-btn');
+            const softSkillsCategoryContainer = document.getElementById('soft-skills-category-container');
+
+            const softSkills = [
+                { title: "Kỹ năng giao tiếp hiệu quả", category: "Kỹ năng Giao tiếp", content: "Đây là khả năng trao đổi thông tin, ý tưởng và cảm xúc một cách rõ ràng và hiệu quả. Nó bao gồm cả ngôn ngữ nói, ngôn ngữ cơ thể và lắng nghe tích cực..." },
+                { title: "Kỹ năng giải quyết vấn đề", category: "Kỹ năng Tư duy", content: "Đây là khả năng xác định, phân tích và tìm ra giải pháp cho các vấn đề. Kỹ năng này đòi hỏi sự sáng tạo, tư duy logic và khả năng ra quyết định..." },
+                { title: "Kỹ năng làm việc nhóm", category: "Kỹ năng Hợp tác", content: "Đây là khả năng làm việc hiệu quả với những người khác để đạt được một mục tiêu chung. Nó bao gồm sự tôn trọng, sự tin tưởng, và khả năng chia sẻ trách nhiệm..." },
+                { title: "Kỹ năng quản lý thời gian", category: "Kỹ năng Quản lý", content: "Đây là khả năng sắp xếp và sử dụng thời gian một cách hiệu quả để hoàn thành các mục tiêu. Nó bao gồm việc lập kế hoạch, đặt ưu tiên và tránh sự lãng phí thời gian..." },
+                { title: "Kỹ năng thích ứng", category: "Kỹ năng Thích ứng", content: "Đây là khả năng điều chỉnh hành vi và tư duy để phù hợp với những thay đổi trong môi trường làm việc hoặc cuộc sống. Kỹ năng này giúp bạn đối phó với những tình huống bất ngờ và học hỏi từ những sai lầm..." },
+                { title: "Kỹ năng lãnh đạo", category: "Kỹ năng Lãnh đạo", content: "Đây là khả năng hướng dẫn và truyền cảm hứng cho một nhóm người để đạt được một mục tiêu chung. Kỹ năng này đòi hỏi sự tự tin, trách nhiệm và khả năng ra quyết định đúng đắn..." },
+                { title: "Kỹ năng tư duy phản biện", category: "Kỹ năng Tư duy", content: "Đây là khả năng phân tích và đánh giá thông tin một cách khách quan để đưa ra những quyết định đúng đắn. Kỹ năng này giúp bạn tránh những sai lầm và đưa ra những giải pháp sáng tạo..." },
+                { title: "Kỹ năng thuyết trình", category: "Kỹ năng Giao tiếp", content: "Đây là khả năng trình bày thông tin một cách rõ ràng và hấp dẫn trước một đám đông. Kỹ năng này giúp bạn tự tin hơn và thuyết phục người khác bằng ý tưởng của mình..." },
+                { title: "Kỹ năng đàm phán", category: "Kỹ năng Giao tiếp", content: "Đây là khả năng thương lượng và đạt được thỏa thuận với người khác. Kỹ năng này giúp bạn đạt được những mục tiêu của mình và xây dựng những mối quan hệ bền vững..." },
+                { title: "Kỹ năng quản lý cảm xúc", category: "Kỹ năng Quản lý", content: "Đây là khả năng nhận biết, hiểu và quản lý cảm xúc của mình và người khác. Kỹ năng này giúp bạn đối phó với những tình huống khó khăn và duy trì sự bình tĩnh..." },
+                { title: "Kỹ năng sáng tạo", category: "Kỹ năng Tư duy", content: "Đây là khả năng tạo ra những ý tưởng mới và độc đáo. Kỹ năng này giúp bạn giải quyết các vấn đề một cách sáng tạo và tạo ra những sản phẩm mới mẻ..." },
+                { title: "Kỹ năng lắng nghe", category: "Kỹ năng Giao tiếp", content: "Đây là khả năng chú ý và hiểu những gì người khác đang nói. Kỹ năng này giúp bạn xây dựng những mối quan hệ tốt đẹp và tránh những hiểu lầm không đáng có..." }
+            ];
+            const softSkillsCategories = ["Tất cả", "Kỹ năng Giao tiếp", "Kỹ năng Tư duy", "Kỹ năng Hợp tác", "Kỹ năng Quản lý", "Kỹ năng Thích ứng", "Kỹ năng Lãnh đạo"];
+
+            function renderSoftSkillsCategories() {
+                softSkillsCategoryContainer.innerHTML = '';
+                softSkillsCategories.forEach(category => {
+                    const btn = document.createElement('button');
+                    btn.classList.add('category-btn');
+                    btn.innerText = category;
+                    btn.dataset.category = category;
+                    btn.addEventListener('click', () => {
+                        renderSoftSkills(category);
+                    });
+                    softSkillsCategoryContainer.appendChild(btn);
+                });
+            }
+
+            function renderSoftSkills(filterCategory = "Tất cả") {
+                softSkillsListContainer.innerHTML = '';
+                const filteredSkills = filterCategory === "Tất cả" ? softSkills : softSkills.filter(s => s.category === filterCategory);
+                
+                filteredSkills.forEach((skill, index) => {
+                    const skillElement = document.createElement('div');
+                    skillElement.classList.add('soft-skill-item');
+                    skillElement.dataset.index = softSkills.findIndex(s => s.title === skill.title);
+                    skillElement.innerHTML = `
+                        <h4>${skill.title}</h4>
+                        <p><strong>Loại:</strong> ${skill.category}</p>
+                    `;
+                    softSkillsListContainer.appendChild(skillElement);
+                });
+
+                const skillItems = document.querySelectorAll('.soft-skill-item');
+                skillItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        const index = e.currentTarget.dataset.index;
+                        const skill = softSkills[index];
+                        softSkillsTitle.innerText = skill.title;
+                        softSkillsText.innerText = skill.content;
+                        softSkillsCategoryContainer.style.display = 'none';
+                        softSkillsListContainer.style.display = 'none';
+                        softSkillsContentContainer.style.display = 'block';
+                    });
+                });
+            }
+
+            backToSoftSkillsBtn.addEventListener('click', () => {
+                softSkillsCategoryContainer.style.display = 'flex';
+                softSkillsListContainer.style.display = 'grid';
+                softSkillsContentContainer.style.display = 'none';
+            });
+
+            renderSoftSkillsCategories();
+            renderSoftSkills();
+        });
+    </script>
+</body>
+</html>

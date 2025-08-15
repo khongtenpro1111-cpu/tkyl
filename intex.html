@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thử Thách Sáng Tạo Mỗi Ngày</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght=400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div id="auth-container">
+            <div id="login-form">
+                <input type="text" id="username-input" placeholder="Tên đăng nhập">
+                <button id="login-btn">Đăng nhập</button>
+            </div>
+            <div id="user-info" style="display: none;">
+                <span id="user-display"></span>
+                <button id="logout-btn">Đăng xuất</button>
+            </div>
+        </div>
+        <h1>Thử Thách Sáng Tạo Mỗi Ngày</h1>
+        <p>Khơi dậy niềm đam mê và sáng tạo của bạn</p>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Tìm kiếm tác phẩm...">
+        </div>
+    </header>
+
+    <main>
+        <section id="daily-challenge-link">
+            <div class="challenge-box">
+                <h2><a href="thuthach.html">Thử thách hôm nay</a></h2>
+                <p>Nhấn vào đây để xem và tham gia thử thách hàng ngày!</p>
+            </div>
+        </section>
+
+        <section id="story-section-link">
+            <div class="challenge-box">
+                <h2><a href="khotruyen.html">Kho truyện online</a></h2>
+                <p>Khám phá những câu chuyện thú vị và đầy cảm hứng!</p>
+            </div>
+        </section>
+
+        <section id="tech-sales-link">
+            <div class="challenge-box">
+                <h2><a href="danhmuccongnghe.html">Danh mục Công nghệ Tương lai</a></h2>
+                <p>Khám phá các sản phẩm công nghệ độc đáo và tương lai!</p>
+            </div>
+        </section>
+
+        <section id="inspiration-link">
+            <div class="challenge-box">
+                <h2><a href="khoinguoncamhung.html">💡 Khơi nguồn Cảm hứng</a></h2>
+                <p>Nhấn vào đây để tìm ý tưởng sáng tạo cho riêng bạn!</p>
+            </div>
+        </section>
+        
+        <section id="soft-skills-link">
+            <div class="challenge-box">
+                <h2><a href="kynangmem.html">Danh mục Kỹ năng mềm</a></h2>
+                <p>Khám phá và rèn luyện các kỹ năng mềm thiết yếu!</p>
+            </div>
+        </section>
+
+        <section id="challenge-voting">
+            <h2>Bình chọn thử thách tuần này</h2>
+            <div id="proposed-challenges-container">
+            </div>
+            <button id="propose-challenge-btn" style="display: none;">Đề xuất thử thách mới</button>
+        </section>
+        
+        <section id="leaderboard">
+            <h2>🏆 Bảng xếp hạng Người dùng</h2>
+            <div id="leaderboard-container">
+                </div>
+        </section>
+
+        <section id="hall-of-fame">
+            <h2>🏆 Bảng vàng Sáng tạo</h2>
+            <div id="top-posts-container" class="grid-container">
+            </div>
+        </section>
+
+        <section id="community-feed">
+            <h2>Các tác phẩm của cộng đồng</h2>
+            <div id="posts-container" class="grid-container">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Creative Hub. Mọi quyền được bảo lưu.</p>
+    </footer>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-cart-btn">&times;</span>
+            <h2>Giỏ hàng của bạn</h2>
+            <div id="cart-items-container">
+            </div>
+            <div class="cart-summary">
+                <h3>Tổng cộng: <span id="cart-total">0 VNĐ</span></h3>
+                <button id="checkout-btn">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-checkout-btn">&times;</span>
+            <h2>Thông tin thanh toán</h2>
+            <form id="checkout-form">
+                <label for="customer-name">Họ và tên:</label>
+                <input type="text" id="customer-name" required>
+                <label for="customer-address">Địa chỉ:</label>
+                <input type="text" id="customer-address" required>
+                <label for="customer-phone">Số điện thoại:</label>
+                <input type="tel" id="customer-phone" required>
+                <button type="submit">Xác nhận thanh toán</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>

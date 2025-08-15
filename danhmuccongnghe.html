@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục Công nghệ Tương lai</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght=400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Danh mục Công nghệ Tương lai</h1>
+    </header>
+    <main>
+        <div id="product-page">
+            <h2 style="display: flex; justify-content: space-between; align-items: center;">
+                Sản phẩm
+                <button id="open-cart-btn">🛒 Giỏ hàng</button>
+            </h2>
+            <div id="product-search-container">
+                <input type="text" id="product-search-input" placeholder="Tìm kiếm sản phẩm...">
+            </div>
+            <div id="tech-products-container" class="grid-container"></div>
+            
+            <div id="product-detail-container">
+                <button id="back-to-products-btn">Quay lại danh sách sản phẩm</button>
+                <div id="product-detail-content"></div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Creative Hub. Mọi quyền được bảo lưu.</p>
+    </footer>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-cart-btn">&times;</span>
+            <h2>Giỏ hàng của bạn</h2>
+            <div id="cart-items-container"></div>
+            <div class="cart-summary">
+                <h3>Tổng cộng: <span id="cart-total">0 VNĐ</span></h3>
+                <button id="checkout-btn">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-checkout-btn">&times;</span>
+            <h2>Thông tin thanh toán</h2>
+            <form id="checkout-form">
+                <label for="customer-name">Họ và tên:</label>
+                <input type="text" id="customer-name" required>
+                <label for="customer-address">Địa chỉ:</label>
+                <input type="text" id="customer-address" required>
+                <label for="customer-phone">Số điện thoại:</label>
+                <input type="tel" id="customer-phone" required>
+                <button type="submit">Xác nhận thanh toán</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const techProductsContainer = document.getElementById('tech-products-container');
+            const productSearchInput = document.getElementById('product-search-input');
+            const productDetailContainer = document.getElementById('product-detail-container');
+            const productDetailContent = document.getElementById('product-detail-content');
+            const backToProductsBtn = document.getElementById('back-to-products-btn');
+            const openCartBtn = document.getElementById('open-cart-btn');
+            const cartModal = document.getElementById('cart-modal');
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const cartTotal = document.getElementById('cart-total');
+            const closeCartBtn = document.getElementById('close-cart-btn');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const checkoutModal = document.getElementById('checkout-modal');
+            const closeCheckoutBtn = document.getElementById('close-checkout-btn');
+            const checkoutForm = document.getElementById('checkout-form');
+            const closeBtns = document.querySelectorAll('.close-btn');
+
+            // Data
+            let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+            let productReviews = JSON.parse(localStorage.getItem('productReviews')) || {};
+            let currentUser = localStorage.getItem('currentUser');
+
+            const techProducts = [
+                { id: 't1', name: "Kính thực tế ảo X-Vision", description: "Trải nghiệm thế giới ảo sống động như thật với công nghệ X-Vision đột phá.", price: "20.000.000 VNĐ", image: "https://imgs.search.brave.com/brTZo6vVnlDftA6iAeaxo1SFdrwlujy6BMebvGXgvqw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4y/LmZwdHNob3AuY29t/LnZuL3Vuc2FmZS9V/cGxvYWRzL2ltYWdl/cy90aW4tdHVjLzE4/MDU0MC9PcmlnaW5h/bHMva2luaC12ci0x/NC5qcGVn", discount: 15 },
+                { id: 't2', name: "Máy bay không người lái Nano-Drone", description: "Máy bay không người lái siêu nhỏ gọn, điều khiển bằng cử chỉ tay, hoàn hảo cho việc khám phá và quay phim.", price: "5.000.000 VNĐ", image: "https://imgs.search.brave.com/JdIwAMPeWOwCvpSbPyNvUrqORsfWkbqKau_EYu4hrgI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/YmFiYS1ibG9nLmNv/bS8yMDIzLzEyL2Et/d2hpdGUtZHJvbmUt/d2l0aC1hLXByb3Bl/bGxlci1ndWFyZC1v/bi13aGl0ZS1iYWNr/Z3JvdW5kLmpwZWc_/eC1vc3MtcHJvY2Vz/cz1zdHlsZS9mdWxs", discount: 0 },
+                { id: 't3', name: "Đồng hồ thông minh Quantum", description: "Đồng hồ thông minh với màn hình cong linh hoạt, theo dõi sức khỏe toàn diện và kết nối mọi lúc mọi nơi.", price: "12.500.000 VNĐ", image: "https://imgs.search.brave.com/BDjm8Z73-L_QXFlig2Yz8imqZh1D_6i6Qomc8cV86BA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kaWRv/bmd2aWV0LnZuL19u/ZXh0L2ltYWdlP3Vy/bD1odHRwczovL2Nk/bi12Mi5kaWRvbmd2/aWV0LnZuL2ZpbGVz/L3Byb2R1Y3RzLzIw/MjUvNC8xNS8xLzE3/NDcyOTQ5MDA5NDFf/ZG9uZ19ob190aG9u/Z19taW5oX2h1YXdl/aV93YXRjaF9maXRf/NF90aW1fMy5wbmcm/dz0zODQwJnE9NzU", discount: 20 },
+                { id: 't4', name: "Robot trợ lý gia đình A-Bot", description: "Robot A-Bot tự động dọn dẹp, nấu ăn và là người bạn đồng hành thông minh cho cả gia đình.", price: "35.000.000 VNĐ", image: "https://imgs.search.brave.com/qNuiO-XorjVo0w1AjQDnBhvu1AwUOW3gQF7iWWhaQ1A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbnRl/Y2gtZ3JvdXAudm4v/dXBsb2Fkcy9ub2lk/dW5nL2ltYWdlcy9y/b2JvdC1sYS1naS5q/cGc ", discount: 10 },
+                { id: 't5', name: "Bút vẽ 3D Holo-Pen", description: "Bút vẽ 3D tạo ra các tác phẩm nghệ thuật trong không gian, mang đến một trải nghiệm sáng tạo hoàn toàn mới.", price: "8.000.000 VNĐ", image: "https://imgs.search.brave.com/JitzBv_q7ff80PrCjak-wNpA2o5xY3uU8TfpUvjTzb0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9iaXp3/ZWIuZGt0Y2RuLm5l/dC90aHVtYi9tZWRp/dW0vMTAwLzQ3Mi8w/OTEvcHJvZHVjdHMv/ejM5NjQ5NTAzNTMy/OTgtZTlkM2I3MTVk/MTI2ODllZjU0N2Y5/NDU4MmJjYTQ4NGUu/anBnP3Y9MTY3MTcz/Mjg4MzM5Nw", discount: 0 }
+            ];
+
+            // Functions
+            function saveProductReviews() {
+                localStorage.setItem('productReviews', JSON.stringify(productReviews));
+            }
+
+            function renderTechProducts(productsToRender = techProducts) {
+                techProductsContainer.innerHTML = '';
+                productsToRender.forEach(product => {
+                    let priceHtml = `<p class="product-price">Giá: ${product.price}</p>`;
+                    if (product.discount > 0) {
+                        const originalPrice = parseInt(product.price.replace(/\./g, '').replace(' VNĐ', ''));
+                        const discountedPrice = originalPrice * (1 - product.discount / 100);
+                        priceHtml = `
+                            <p class="product-price-old">Giá cũ: ${originalPrice.toLocaleString('vi-VN')} VNĐ</p>
+                            <p class="product-price">Giá KM: ${discountedPrice.toLocaleString('vi-VN')} VNĐ</p>
+                            <span class="product-discount-badge">-${product.discount}%</span>
+                        `;
+                    }
+
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('product-item');
+                    productElement.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        ${priceHtml}
+                        <button class="add-to-cart-btn" data-id="${product.id}">Thêm vào giỏ</button>
+                        <button class="view-detail-btn" data-id="${product.id}">Xem chi tiết</button>
+                    `;
+                    techProductsContainer.appendChild(productElement);
+                });
+
+                // Attach event listeners
+                document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const productId = e.currentTarget.dataset.id;
+                        addToCart(productId);
+                    });
+                });
+
+                document.querySelectorAll('.view-detail-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const productId = e.currentTarget.dataset.id;
+                        renderProductDetail(productId);
+                    });
+                });
+            }
+
+            function renderProductDetail(productId) {
+                const product = techProducts.find(p => p.id === productId);
+                if (product) {
+                    let priceHtml = `<p class="detail-price">Giá: ${product.price}</p>`;
+                    if (product.discount > 0) {
+                        const originalPrice = parseInt(product.price.replace(/\./g, '').replace(' VNĐ', ''));
+                        const discountedPrice = originalPrice * (1 - product.discount / 100);
+                        priceHtml = `
+                            <p class="detail-price-old">Giá cũ: ${originalPrice.toLocaleString('vi-VN')} VNĐ</p>
+                            <p class="detail-price">Giá KM: ${discountedPrice.toLocaleString('vi-VN')} VNĐ <span class="product-discount-badge">-${product.discount}%</span></p>
+                        `;
+                    }
+
+                    const reviews = productReviews[productId] || [];
+                    let reviewsHtml = '';
+                    if (reviews.length > 0) {
+                        reviewsHtml = '<h4>Đánh giá sản phẩm:</h4><ul>';
+                        reviews.forEach(review => {
+                            reviewsHtml += `<li><strong>${review.author}</strong>: ${review.text}</li>`;
+                        });
+                        reviewsHtml += '</ul>';
+                    } else {
+                        reviewsHtml = '<p>Chưa có đánh giá nào cho sản phẩm này.</p>';
+                    }
+
+                    productDetailContent.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" class="detail-image">
+                        <h3 class="detail-title">${product.name}</h3>
+                        <p class="detail-description">${product.description}</p>
+                        ${priceHtml}
+                        <button class="add-to-cart-btn" data-id="${product.id}">Thêm vào giỏ</button>
+                        <div id="review-section">
+                            ${reviewsHtml}
+                            <form id="review-form">
+                                <input type="text" id="review-input" placeholder="Viết đánh giá của bạn..." required>
+                                <button type="submit">Gửi</button>
+                            </form>
+                        </div>
+                    `;
+                    techProductsContainer.style.display = 'none';
+                    productDetailContainer.style.display = 'block';
+
+                    const addToCartBtn = document.querySelector('#product-detail-content .add-to-cart-btn');
+                    addToCartBtn.addEventListener('click', (e) => {
+                        const productId = e.currentTarget.dataset.id;
+                        addToCart(productId);
+                    });
+
+                    const reviewForm = document.getElementById('review-form');
+                    reviewForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        if (!currentUser) {
+                            alert("Vui lòng đăng nhập để đánh giá sản phẩm!");
+                            return;
+                        }
+                        const reviewText = document.getElementById('review-input').value;
+                        if (!productReviews[productId]) {
+                            productReviews[productId] = [];
+                        }
+                        productReviews[productId].push({ author: currentUser, text: reviewText });
+                        saveProductReviews();
+                        renderProductDetail(productId);
+                    });
+                }
+            }
+
+            function addToCart(productId) {
+                const product = techProducts.find(p => p.id === productId);
+                if (product) {
+                    const existingItem = cart.find(item => item.id === productId);
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({ ...product, quantity: 1 });
+                    }
+                    saveCart();
+                    alert(`${product.name} đã được thêm vào giỏ hàng!`);
+                }
+            }
+
+            function saveCart() {
+                localStorage.setItem('shoppingCart', JSON.stringify(cart));
+            }
+
+            function renderCart() {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p>Giỏ hàng của bạn đang trống.</p>';
+                    cartTotal.innerText = '0 VNĐ';
+                } else {
+                    cart.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.classList.add('cart-item');
+                        const priceValue = parseInt(item.price.replace(/\./g, '').replace(' VNĐ', ''));
+                        const itemTotal = priceValue * item.quantity;
+                        total += itemTotal;
+                        itemElement.innerHTML = `
+                            <div class="cart-item-info">
+                                <p>${item.name}</p>
+                                <p class="cart-item-price">Giá: ${item.price}</p>
+                            </div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn decrease-btn" data-id="${item.id}">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="quantity-btn increase-btn" data-id="${item.id}">+</button>
+                            </div>
+                            <button class="remove-from-cart-btn" data-id="${item.id}">Xóa</button>
+                        `;
+                        cartItemsContainer.appendChild(itemElement);
+                    });
+                    cartTotal.innerText = `${total.toLocaleString('vi-VN')} VNĐ`;
+                    
+                    document.querySelectorAll('.quantity-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const productId = e.currentTarget.dataset.id;
+                            const action = e.currentTarget.classList.contains('increase-btn') ? 'increase' : 'decrease';
+                            updateCartQuantity(productId, action);
+                        });
+                    });
+                    
+                    document.querySelectorAll('.remove-from-cart-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const productId = e.currentTarget.dataset.id;
+                            removeFromCart(productId);
+                        });
+                    });
+                }
+            }
+            
+            function updateCartQuantity(productId, action) {
+                const itemToUpdate = cart.find(item => item.id === productId);
+                if (itemToUpdate) {
+                    if (action === 'increase') {
+                        itemToUpdate.quantity += 1;
+                    } else if (action === 'decrease' && itemToUpdate.quantity > 1) {
+                        itemToUpdate.quantity -= 1;
+                    } else if (action === 'decrease' && itemToUpdate.quantity === 1) {
+                        removeFromCart(productId);
+                        return;
+                    }
+                    saveCart();
+                    renderCart();
+                }
+            }
+
+            function removeFromCart(productId) {
+                const confirmRemove = confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không?");
+                if (confirmRemove) {
+                    cart = cart.filter(item => item.id !== productId);
+                    saveCart();
+                    renderCart();
+                }
+            }
+
+            // Event Listeners
+            productSearchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                const filteredProducts = techProducts.filter(product =>
+                    product.name.toLowerCase().includes(query) ||
+                    product.description.toLowerCase().includes(query)
+                );
+                renderTechProducts(filteredProducts);
+            });
+            
+            backToProductsBtn.addEventListener('click', () => {
+                techProductsContainer.style.display = 'grid';
+                productDetailContainer.style.display = 'none';
+            });
+            
+            openCartBtn.addEventListener('click', () => {
+                cartModal.style.display = 'block';
+                renderCart();
+            });
+
+            closeCartBtn.addEventListener('click', () => {
+                cartModal.style.display = 'none';
+            });
+
+            checkoutBtn.addEventListener('click', () => {
+                if (cart.length > 0) {
+                    cartModal.style.display = 'none';
+                    checkoutModal.style.display = 'block';
+                } else {
+                    alert("Giỏ hàng của bạn đang trống!");
+                }
+            });
+
+            closeCheckoutBtn.addEventListener('click', () => {
+                checkoutModal.style.display = 'none';
+            });
+
+            checkoutForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const customerName = document.getElementById('customer-name').value;
+                const customerAddress = document.getElementById('customer-address').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                
+                alert(`Cảm ơn anh ${customerName}! Đơn hàng của anh đã được xác nhận. Chúng em sẽ giao đến địa chỉ ${customerAddress} sớm nhất. Tổng tiền là ${cartTotal.innerText}.`);
+                
+                cart = [];
+                saveCart();
+                checkoutModal.style.display = 'none';
+                renderCart();
+            });
+            
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    cartModal.style.display = "none";
+                    checkoutModal.style.display = "none";
+                });
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target == cartModal) {
+                    cartModal.style.display = "none";
+                }
+                if (event.target == checkoutModal) {
+                    checkoutModal.style.display = "none";
+                }
+            });
+            
+            // Initial render
+            renderTechProducts();
+        });
+    </script>
+</body>
+</html>
