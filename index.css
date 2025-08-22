@@ -1,0 +1,407 @@
+/* ==================== CÁC KIỂU CHUNG ==================== */
+:root {
+    --bg-color: #12121e;
+    --main-color: #f72585; /* Hồng neon */
+    --accent-color: #4361ee; /* Xanh dương */
+    --card-bg: #1e1e2d;
+    --border-color: #2b2b3b;
+    --text-color: #f0f0f0;
+    --secondary-text-color: #a0a0a0;
+    --button-success: #52b788;
+    --button-danger: #e63964;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    padding-bottom: 60px;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Poppins', sans-serif;
+    color: var(--main-color);
+    text-align: center;
+    font-weight: 600;
+}
+
+header.header-container {
+    background-color: var(--card-bg);
+    padding: 40px 20px 20px;
+    text-align: center;
+    border-bottom: 3px solid var(--accent-color);
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+header.header-container h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 95px;
+    margin-bottom: 100px;
+    align-items: stretch;
+    justify-content: space-between; /* Đã thêm */
+    flex-wrap: wrap; /* Đã thêm */
+}
+
+.challenge-card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border: 2px solid;
+    border-image: linear-gradient(45deg, var(--main-color), var(--accent-color)) 1;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.challenge-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.challenge-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+.challenge-card:hover::before {
+    opacity: 1;
+}
+
+.challenge-card h2, .challenge-card p {
+    position: relative;
+    z-index: 1;
+}
+
+.section-container {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 30px;
+    border: 2px solid;
+    border-image: linear-gradient(45deg, var(--main-color), var(--accent-color)) 1;
+}
+
+.section-container h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.post-item {
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--main-color);
+    animation: fadeIn 0.5s ease-out;
+}
+
+#notification-modal .modal-content {
+    background-color: var(--main-color);
+    color: var(--text-color);
+    border: none;
+    box-shadow: 0 5px 20px rgba(247, 37, 133, 0.5);
+    animation: slideInFromTop 0.5s ease-out;
+    top: 50px;
+    margin: 0 auto;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInFromTop {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-btn {
+    color: var(--text-color);
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--main-color);
+    text-decoration: none;
+}
+
+footer {
+    background-color: var(--card-bg);
+    text-align: center;
+    padding: 20px;
+    color: var(--secondary-text-color);
+    border-top: 2px solid var(--accent-color);
+}
+
+/* ==================== MEDIA QUERIES (RESPONSIVE) ==================== */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 30px 15px 15px;
+    }
+
+    .header-container h1 {
+        font-size: 1.8em;
+    }
+    
+    #auth-container {
+        position: static;
+        flex-direction: column;
+        padding-top: 10px;
+    }
+    
+    #search-container {
+        margin-top: 15px;
+    }
+
+    main {
+        padding: 0 10px;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-container {
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+    
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+/* ==================== CÁC KIỂU CỦA TRANG CHỦ (index.html) ==================== */
+#auth-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+#login-form input, #login-form button, #logout-btn {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#login-form input {
+    background-color: var(--border-color);
+}
+
+#login-btn:hover, #logout-btn:hover {
+    background-color: var(--main-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#user-display {
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+#search-container {
+    margin-top: 20px;
+}
+
+#search-input {
+    width: 80%;
+    max-width: 500px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: var(--border-color);
+    color: var(--text-color);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Thanh menu trượt */
+#side-menu {
+    height: 100%;
+    width: 280px;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: -280px;
+    background-color: #0d0d17;
+    padding-top: 60px;
+    transition: left 0.5s ease-in-out;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+}
+
+#side-menu.open {
+    left: 0;
+}
+
+#side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+#side-menu a {
+    padding: 18px 32px;
+    font-size: 18px;
+    color: var(--secondary-text-color);
+    display: block;
+    transition: 0.3s;
+    border-left: 5px solid transparent;
+}
+
+#side-menu a:hover {
+    color: var(--main-color);
+    background-color: var(--card-bg);
+    border-left: 5px solid var(--main-color);
+}
+
+.open-menu-btn {
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    color: var(--main-color);
+}
+
+.close-menu-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 40px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding-top: 20px;
+}
+
+.contact-info, .store-info, .map-container, .contact-form {
+    background-color: var(--bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.contact-form input, .contact-form textarea, .contact-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.contact-form button {
+    background-color: var(--accent-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: var(--main-color);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    border: none;
+}
+
+@media (max-width: 900px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}

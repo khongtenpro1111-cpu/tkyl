@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Các Tác Phẩm Của Cộng Đồng</title>
+
+    <link rel="stylesheet" href="cactacphamcongdong.css">
+    <link href="[https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght=400;700&display=swap](https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght=400;700&display=swap)" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>Các Tác Phẩm Của Cộng Đồng</h1>
+    </header>
+
+    <main>
+        <section id="hall-of-fame">
+            <h2>🏆 Bảng vàng Sáng tạo</h2>
+            <div id="top-posts-container" class="grid-container">
+                <!-- Top post sẽ được hiển thị tại đây -->
+            </div>
+        </section>
+
+        <section id="community-feed">
+            <h2>Các tác phẩm của cộng đồng</h2>
+            <div id="posts-container" class="grid-container">
+                <!-- Các tác phẩm khác sẽ được hiển thị tại đây -->
+            </div>
+        </section>
+        
+        <div id="upload-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Gửi tác phẩm của bạn</h2>
+                <form id="upload-form">
+                    <input type="text" id="post-title" placeholder="Tiêu đề tác phẩm của bạn" required>
+                    <input type="hidden" id="post-id">
+                    <label for="post-file">Chọn file (ảnh, video, audio):</label>
+                    <input type="file" id="post-file" accept="image/*,video/*,audio/*">
+                    <button type="submit" id="submit-btn">Đăng tác phẩm</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lấy các phần tử DOM cần thiết
+            const postsContainer = document.getElementById('posts-container');
+            const topPostsContainer = document.getElementById('top-posts-container');
+            const uploadFormModal = document.getElementById('upload-modal');
+            const uploadForm = document.getElementById('upload-form');
+            const postTitleInput = document.getElementById('post-title');
+            const postIdInput = document.getElementById('post-id');
+            const postFileInput = document.getElementById('post-file');
+            const submitBtn = document.getElementById('submit-btn');
+            const closeBtn = document.querySelector('#upload-modal .close-btn');
+
+            // Giả lập người dùng hiện tại và admin
+            let currentUser = localStorage.getItem('currentUser');
+            const ADMIN_USER = 'Trung Kien';
+
+            // Dữ liệu mẫu đã được thêm lại
+            let posts = JSON.parse(localStorage.getItem('creativePosts')) || [
+                { 
+                    id: '1', 
+                    author: 'Nguyễn Văn A', 
+                    text: "Tác phẩm đầu tay của mình, rất mong nhận được góp ý từ mọi người! ❤️", 
+                    fileUrl: "[https://images.unsplash.com/photo-1549880153-f725a3a2a95c](https://images.unsplash.com/photo-1549880153-f725a3a2a95c)", 
+                    fileType: 'image/jpeg', 
+                    likes: 5, 
+                    comments: [
+                        { text: "Rất đẹp, phong cách độc đáo!", likes: 2, author: "Khách" }, 
+                        { text: "Ý tưởng hay thật! 👍", likes: 1, author: "Khách" }
+                    ] 
+                },
+                { 
+                    id: '2', 
+                    author: 'Anh', 
+                    text: "Một buổi chiều hoàng hôn tĩnh lặng. Mọi người có thích không ạ?", 
+                    fileUrl: "[https://images.unsplash.com/photo-1579783902677-50c11100f723](https://images.unsplash.com/photo-1579783902677-50c11100f723)", 
+                    fileType: 'image/jpeg', 
+                    likes: 10, 
+                    comments: [
+                        { text: "Bức ảnh này rất có chiều sâu!", likes: 5, author: "Khách" }, 
+                        { text: "Thích phong cách này quá. 😍", likes: 3, author: "Khách" }
+                    ] 
+                },
+                { 
+                    id: '3', 
+                    author: 'Trần Thị B', 
+                    text: "Tác phẩm lấy cảm hứng từ vũ trụ, hy vọng các bạn thích!", 
+                    fileUrl: "[https://images.unsplash.com/photo-1596495679951-64d8a1c8b3e8](https://images.unsplash.com/photo-1596495679951-64d8a1c8b3e8)", 
+                    fileType: 'image/jpeg', 
+                    likes: 15, 
+                    comments: [
+                        { text: "Tuyệt vời! Màu sắc và bố cục đều hoàn hảo.", likes: 8, author: "Khách" }, 
+                        { text: "Nhìn rất nghệ thuật!", likes: 4, author: "Khách" }
+                    ] 
+                }
+            ];
+            let userPoints = JSON.parse(localStorage.getItem('userPoints')) || {};
+            
+            // Hàm lưu bài viết vào localStorage
+            function savePosts() {
+                localStorage.setItem('creativePosts', JSON.stringify(posts));
+            }
+            
+            // Hàm lưu điểm người dùng vào localStorage
+            function saveUserPoints() {
+                localStorage.setItem('userPoints', JSON.stringify(userPoints));
+            }
+
+            // Hàm cập nhật điểm cho người dùng
+            function updateUserPoints(username, pointsToAdd) {
+                if (!userPoints[username]) {
+                    userPoints[username] = 0;
+                }
+                userPoints[username] += pointsToAdd;
+                saveUserPoints();
+            }
+            
+            // Hàm render các bài viết lên trang
+            function renderPosts() {
+                postsContainer.innerHTML = ''; // Xóa nội dung cũ
+                
+                if (posts.length === 0) {
+                    postsContainer.innerHTML = '<p style="text-align: center;">Chưa có tác phẩm nào được đăng tải. Hãy là người đầu tiên!</p>';
+                    return;
+                }
+
+                posts.forEach((post) => {
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('post-item');
+
+                    // Xác định loại file để hiển thị
+                    let mediaHtml = '';
+                    if (post.fileUrl && post.fileType) {
+                        if (post.fileType.startsWith('image')) {
+                            mediaHtml = `<img src="${post.fileUrl}" alt="${post.text}">`;
+                        } else if (post.fileType.startsWith('video')) {
+                            mediaHtml = `<video controls src="${post.fileUrl}"></video>`;
+                        } else if (post.fileType.startsWith('audio')) {
+                            mediaHtml = `<audio controls src="${post.fileUrl}"></audio>`;
+                        }
+                    }
+
+                    // Tạo cấu trúc HTML cho mỗi bài viết
+                    postElement.innerHTML = `
+                        ${mediaHtml}
+                        <div class="post-content">
+                            <h4>${post.author}</h4>
+                            <p>${post.text}</p>
+                            <div class="actions">
+                                <button class="like-btn" data-id="${post.id}">❤️ <span class="like-count">${post.likes || 0}</span></button>
+                                ${currentUser && (post.author === currentUser || currentUser === ADMIN_USER) ? 
+                                    `<button class="edit-btn" data-id="${post.id}">Sửa</button>
+                                     <button class="delete-btn" data-id="${post.id}">Xóa</button>` : ''}
+                            </div>
+                            <input type="text" class="comment-input" placeholder="Viết bình luận..." data-id="${post.id}">
+                            <div class="comments-container">
+                                ${post.comments && post.comments.length > 0 ? 
+                                    post.comments.map((comment, index) => `
+                                        <div class="comment">
+                                            <strong>${comment.author}</strong>: <span>${comment.text}</span>
+                                            <span class="comment-actions">
+                                                <button class="like-comment-btn" data-post-id="${post.id}" data-comment-index="${index}">❤️ <span class="like-count">${comment.likes || 0}</span></button>
+                                                ${currentUser && (comment.author === currentUser || currentUser === ADMIN_USER) ? 
+                                                    `<button class="edit-comment-btn" data-post-id="${post.id}" data-comment-index="${index}">Sửa</button>
+                                                     <button class="delete-comment-btn" data-post-id="${post.id}" data-comment-index="${index}">Xóa</button>` : ''}
+                                            </span>
+                                        </div>
+                                    `).join('')
+                                : ''}
+                            </div>
+                        </div>
+                    `;
+
+                    postsContainer.appendChild(postElement);
+                });
+                
+                // Gắn lại các sự kiện sau khi render
+                attachEventListeners();
+            }
+
+            // Hàm render các bài viết top
+            function renderTopPosts() {
+                topPostsContainer.innerHTML = '';
+                const sortedPosts = [...posts].sort((a, b) => (b.likes || 0) - (a.likes || 0));
+                const topPost = sortedPosts[0];
+
+                if (topPost) {
+                    const postElement = document.createElement('div');
+                    postElement.classList.add('post-item', 'top-post-item');
+                    let mediaHtml = '';
+                    if (topPost.fileUrl && topPost.fileType) {
+                        if (topPost.fileType.startsWith('image')) {
+                            mediaHtml = `<img src="${topPost.fileUrl}" alt="${topPost.text}">`;
+                        } else if (topPost.fileType.startsWith('video')) {
+                            mediaHtml = `<video controls src="${topPost.fileUrl}"></video>`;
+                        } else if (topPost.fileType.startsWith('audio')) {
+                            mediaHtml = `<audio controls src="${topPost.fileUrl}"></audio>`;
+                        }
+                    }
+                    postElement.innerHTML = `
+                        ${mediaHtml}
+                        <div class="post-content">
+                            <h4>${topPost.author}</h4>
+                            <p>${topPost.text}</p>
+                            <p class="top-likes">❤️ ${topPost.likes || 0} lượt thích</p>
+                        </div>
+                    `;
+                    topPostsContainer.appendChild(postElement);
+                } else {
+                    topPostsContainer.innerHTML = '<p style="text-align: center;">Chưa có tác phẩm nào.</p>';
+                }
+            }
+
+            // Hàm gắn các sự kiện vào các nút và input
+            function attachEventListeners() {
+                // Sự kiện cho nút Like bài viết
+                document.querySelectorAll('.like-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = e.currentTarget.dataset.id;
+                        const post = posts.find(p => p.id === id);
+                        if (post) {
+                            post.likes = (post.likes || 0) + 1;
+                            updateUserPoints(post.author, 5);
+                            savePosts();
+                            renderPosts();
+                            renderTopPosts();
+                        }
+                    });
+                });
+
+                // Sự kiện cho input bình luận (khi nhấn Enter)
+                document.querySelectorAll('.comment-input').forEach(input => {
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') {
+                            if (!currentUser) {
+                                alert("Vui lòng đăng nhập để bình luận!");
+                                return;
+                            }
+                            const id = e.currentTarget.dataset.id;
+                            const commentText = e.currentTarget.value;
+                            const post = posts.find(p => p.id === id);
+                            if (commentText.trim() !== '' && post) {
+                                if (!post.comments) {
+                                    post.comments = [];
+                                }
+                                const newComment = {text: commentText, likes: 0, author: currentUser};
+                                post.comments.push(newComment);
+                                updateUserPoints(currentUser, 2);
+                                savePosts();
+                                renderPosts();
+                                renderTopPosts();
+                            }
+                        }
+                    });
+                });
+
+                // Sự kiện cho nút Xóa bài viết
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const idToDelete = e.currentTarget.dataset.id;
+                        if (confirm("Bạn có chắc chắn muốn xóa tác phẩm này?")) {
+                            const postIndex = posts.findIndex(p => p.id === idToDelete);
+                            if (postIndex !== -1 && (posts[postIndex].author === currentUser || currentUser === ADMIN_USER)) {
+                                posts.splice(postIndex, 1);
+                                savePosts();
+                                renderPosts();
+                                renderTopPosts();
+                            } else if (!currentUser) {
+                                alert("Vui lòng đăng nhập để xóa!");
+                            } else {
+                                alert("Bạn không có quyền xóa tác phẩm này!");
+                            }
+                        }
+                    });
+                });
+
+                // Sự kiện cho nút Sửa bài viết
+                document.querySelectorAll('.edit-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const idToEdit = e.currentTarget.dataset.id;
+                        const postToEdit = posts.find(p => p.id === idToEdit);
+                        if (postToEdit && (postToEdit.author === currentUser || currentUser === ADMIN_USER)) {
+                            postTitleInput.value = postToEdit.text;
+                            postIdInput.value = postToEdit.id;
+                            submitBtn.innerText = 'Cập nhật';
+                            uploadFormModal.style.display = 'block';
+                        } else if (!currentUser) {
+                            alert("Vui lòng đăng nhập để sửa!");
+                        } else {
+                            alert("Bạn không có quyền sửa tác phẩm này!");
+                        }
+                    });
+                });
+                
+                // Sự kiện cho nút Like bình luận
+                document.querySelectorAll('.like-comment-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const postId = e.currentTarget.dataset.postId;
+                        const commentIndex = e.currentTarget.dataset.commentIndex;
+                        const post = posts.find(p => p.id === postId);
+                        if (post && post.comments[commentIndex]) {
+                            post.comments[commentIndex].likes = (post.comments[commentIndex].likes || 0) + 1;
+                            savePosts();
+                            renderPosts();
+                            renderTopPosts();
+                        }
+                    });
+                });
+
+                // Sự kiện cho nút Xóa bình luận
+                document.querySelectorAll('.delete-comment-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const postId = e.currentTarget.dataset.postId;
+                        const commentIndex = e.currentTarget.dataset.commentIndex;
+                        const post = posts.find(p => p.id === postId);
+                        if (post && (post.comments[commentIndex].author === currentUser || currentUser === ADMIN_USER)) {
+                             if (confirm("Bạn có chắc chắn muốn xóa bình luận này?")) {
+                                post.comments.splice(commentIndex, 1);
+                                savePosts();
+                                renderPosts();
+                                renderTopPosts();
+                             }
+                        } else if (!currentUser) {
+                            alert("Vui lòng đăng nhập để xóa bình luận!");
+                        } else {
+                            alert("Bạn không có quyền xóa bình luận này!");
+                        }
+                    });
+                });
+                
+                // Sự kiện cho nút Sửa bình luận
+                document.querySelectorAll('.edit-comment-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const postId = e.currentTarget.dataset.postId;
+                        const commentIndex = e.currentTarget.dataset.commentIndex;
+                        const post = posts.find(p => p.id === postId);
+                        if (post && (post.comments[commentIndex].author === currentUser || currentUser === ADMIN_USER)) {
+                            const newCommentText = prompt("Chỉnh sửa bình luận:", post.comments[commentIndex].text);
+                            if (newCommentText !== null && newCommentText.trim() !== '') {
+                                post.comments[commentIndex].text = newCommentText;
+                                savePosts();
+                                renderPosts();
+                                renderTopPosts();
+                            }
+                        } else if (!currentUser) {
+                            alert("Vui lòng đăng nhập để sửa bình luận!");
+                        } else {
+                            alert("Bạn không có quyền sửa bình luận này!");
+                        }
+                    });
+                });
+            }
+
+            // Xử lý form upload
+            uploadForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const postId = postIdInput.value;
+                const postTitle = postTitleInput.value;
+                const postFile = postFileInput.files[0];
+
+                if (!postTitle && !postFile) {
+                    alert("Vui lòng nhập tiêu đề hoặc chọn một file!");
+                    return;
+                }
+                
+                // Cập nhật giới hạn dung lượng file lên 1GB
+                const maxFileSize = 1024 * 1024 * 1024;
+                if (postFile && postFile.size > maxFileSize) {
+                    alert("Kích thước file quá lớn! Vui lòng chọn file có dung lượng dưới 1GB.");
+                    return;
+                }
+                
+                if (!currentUser) {
+                    alert("Vui lòng đăng nhập để gửi tác phẩm!");
+                    return;
+                }
+
+                const createOrUpdatePost = (fileUrl = null, fileType = null) => {
+                    if (postId) {
+                        // Cập nhật bài viết
+                        const postToUpdate = posts.find(p => p.id === postId);
+                        if (postToUpdate) {
+                            postToUpdate.text = postTitle;
+                            postToUpdate.fileUrl = fileUrl || postToUpdate.fileUrl;
+                            postToUpdate.fileType = fileType || postToUpdate.fileType;
+                            if (!fileUrl) { // Xóa file nếu không có file mới
+                                postToUpdate.fileUrl = null;
+                                postToUpdate.fileType = null;
+                            }
+                            savePosts();
+                        }
+                    } else {
+                        // Tạo bài viết mới
+                        const newPost = {
+                            id: Date.now().toString(),
+                            author: currentUser,
+                            text: postTitle,
+                            fileUrl: fileUrl,
+                            fileType: fileType,
+                            likes: 0,
+                            comments: []
+                        };
+                        posts.unshift(newPost);
+                        updateUserPoints(currentUser, 10);
+                        savePosts();
+                    }
+                    
+                    renderPosts();
+                    renderTopPosts();
+                    uploadFormModal.style.display = "none";
+                    uploadForm.reset();
+                    submitBtn.innerText = 'Đăng tác phẩm';
+                };
+
+                if (postFile) {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        createOrUpdatePost(reader.result, postFile.type);
+                    };
+                    reader.readAsDataURL(postFile);
+                } else {
+                    createOrUpdatePost();
+                }
+            });
+
+            // Sự kiện đóng modal
+            closeBtn.addEventListener('click', () => {
+                uploadFormModal.style.display = 'none';
+                uploadForm.reset();
+                submitBtn.innerText = 'Đăng tác phẩm';
+                postIdInput.value = '';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === uploadFormModal) {
+                    uploadFormModal.style.display = 'none';
+                    uploadForm.reset();
+                    submitBtn.innerText = 'Đăng tác phẩm';
+                    postIdInput.value = '';
+                }
+            });
+
+            // Gọi các hàm render lần đầu để hiển thị dữ liệu
+            renderPosts();
+            renderTopPosts();
+        });
+    </script>
+</body>
+</html>

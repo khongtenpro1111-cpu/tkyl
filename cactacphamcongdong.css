@@ -1,0 +1,162 @@
+/* ==================== CÁC KIỂU CỦA TRANG CÁC TÁC PHẨM CỘNG ĐỒNG ==================== */
+.post-item {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.post-item:hover {
+    transform: translateY(-5px);
+}
+
+.post-item img, .post-item video, .post-item audio {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.post-item video {
+    max-height: 300px;
+}
+
+.post-item audio {
+    width: 100%;
+}
+
+#upload-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-color);
+    font-weight: bold;
+    text-align: left;
+}
+
+#upload-form input,
+#upload-form button {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: #162447;
+    color: var(--text-color);
+}
+
+#upload-form button {
+    background-color: var(--main-color);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.like-btn {
+    background: none;
+    border: none;
+    color: var(--main-color);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.comment-input {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: #162447;
+    color: var(--text-color);
+}
+
+.comments-container {
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+    overflow-y: auto;
+    max-height: 100px;
+}
+
+.comment {
+    margin: 5px 0;
+    font-size: 14px;
+    color: var(--secondary-text-color);
+    position: relative;
+}
+
+.comment-actions {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.comment:hover .comment-actions {
+    display: inline-block;
+}
+
+.comment-actions button {
+    background: none;
+    border: none;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.delete-btn {
+    background-color: var(--button-danger);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-btn {
+    background-color: var(--button-success);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#hall-of-fame {
+    margin-top: 40px;
+    background: linear-gradient(45deg, #162447, #1e2a4a);
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #ffc107;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.4);
+}
+
+#hall-of-fame h2 {
+    color: #ffc107;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.top-post-item {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(255, 193, 7, 0.2);
+    border: 1px solid #ffc107;
+    max-width: 400px;
+    margin: 0 auto;
+}

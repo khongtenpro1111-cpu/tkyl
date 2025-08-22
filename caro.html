@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Cờ Caro</title>
+    <link rel="stylesheet" href="caro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header-caro">
+        <a href="trochoi.html" class="back-link">
+            <button class="caro-btn">Quay lại</button>
+        </a>
+        <h1>Game Cờ Caro</h1>
+        <p>Thử thách trí tuệ của bạn!</p>
+    </header>
+
+    <main>
+        <div id="game-container">
+            <div id="game-info">
+                <p>Lượt đi của: <span id="current-player">X</span></p>
+                <div id="status"></div>
+                <button id="reset-btn" class="caro-btn">Chơi lại</button>
+            </div>
+            <div id="board"></div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const board = document.getElementById('board');
+            const currentPlayerSpan = document.getElementById('current-player');
+            const statusDiv = document.getElementById('status');
+            const resetBtn = document.getElementById('reset-btn');
+
+            let currentPlayer = 'X';
+            let gameActive = true;
+            let gameState = Array(20 * 20).fill('');
+
+            const winningConditions = [];
+            const boardSize = 20;
+
+            for (let i = 0; i < boardSize; i++) {
+                for (let j = 0; j < boardSize; j++) {
+                    if (j <= boardSize - 5) {
+                        winningConditions.push([i * boardSize + j, i * boardSize + j + 1, i * boardSize + j + 2, i * boardSize + j + 3, i * boardSize + j + 4]);
+                    }
+                    if (i <= boardSize - 5) {
+                        winningConditions.push([i * boardSize + j, (i + 1) * boardSize + j, (i + 2) * boardSize + j, (i + 3) * boardSize + j, (i + 4) * boardSize + j]);
+                    }
+                    if (i <= boardSize - 5 && j <= boardSize - 5) {
+                        winningConditions.push([i * boardSize + j, (i + 1) * boardSize + j + 1, (i + 2) * boardSize + j + 2, (i + 3) * boardSize + j + 3, (i + 4) * boardSize + j + 4]);
+                    }
+                    if (i <= boardSize - 5 && j >= 4) {
+                        winningConditions.push([i * boardSize + j, (i + 1) * boardSize + j - 1, (i + 2) * boardSize + j - 2, (i + 3) * boardSize + j - 3, (i + 4) * boardSize + j - 4]);
+                    }
+                }
+            }
+
+            function createBoard() {
+                board.innerHTML = '';
+                board.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+                for (let i = 0; i < boardSize * boardSize; i++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.index = i;
+                    cell.addEventListener('click', handleCellClick);
+                    board.appendChild(cell);
+                }
+            }
+
+            function handleCellClick(event) {
+                const clickedCell = event.target;
+                const clickedCellIndex = parseInt(clickedCell.dataset.index);
+
+                if (gameState[clickedCellIndex] !== '' || !gameActive) {
+                    return;
+                }
+
+                gameState[clickedCellIndex] = currentPlayer;
+                clickedCell.innerText = currentPlayer;
+                clickedCell.classList.add(currentPlayer.toLowerCase());
+
+                checkResult();
+                changePlayer();
+            }
+
+            function changePlayer() {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                currentPlayerSpan.innerText = currentPlayer;
+            }
+
+            function checkResult() {
+                let roundWon = false;
+                let winningCells = [];
+                for (let i = 0; i < winningConditions.length; i++) {
+                    const winCondition = winningConditions[i];
+                    let a = gameState[winCondition[0]];
+                    let b = gameState[winCondition[1]];
+                    let c = gameState[winCondition[2]];
+                    let d = gameState[winCondition[3]];
+                    let e = gameState[winCondition[4]];
+                    
+                    if (a === '' || b === '' || c === '' || d === '' || e === '') {
+                        continue;
+                    }
+                    if (a === b && b === c && c === d && d === e) {
+                        roundWon = true;
+                        winningCells = winCondition;
+                        break;
+                    }
+                }
+
+                if (roundWon) {
+                    statusDiv.innerHTML = `Người chơi <span class="${currentPlayer.toLowerCase()}">${currentPlayer}</span> đã thắng! 🎉`;
+                    gameActive = false;
+                    
+                    winningCells.forEach(index => {
+                        const cell = board.querySelector(`[data-index="${index}"]`);
+                        cell.classList.add('win');
+                    });
+                    
+                    return;
+                }
+
+                let roundDraw = !gameState.includes('');
+                if (roundDraw) {
+                    statusDiv.innerText = `Ván đấu hòa!`;
+                    gameActive = false;
+                    return;
+                }
+            }
+
+            function resetGame() {
+                currentPlayer = 'X';
+                gameActive = true;
+                gameState = Array(20 * 20).fill('');
+                currentPlayerSpan.innerText = currentPlayer;
+                statusDiv.innerText = '';
+                document.querySelectorAll('.cell').forEach(cell => {
+                    cell.innerText = '';
+                    cell.classList.remove('x', 'o', 'win');
+                });
+            }
+
+            resetBtn.addEventListener('click', resetGame);
+            createBoard();
+        });
+    </script>
+</body>
+</html>
