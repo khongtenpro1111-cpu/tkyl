@@ -1,0 +1,1389 @@
+/* ==================== CÁC KIỂU CHUNG ==================== */
+:root {
+    --bg-color: #12121e;
+    --main-color: #f72585; /* Hồng neon */
+    --accent-color: #4361ee; /* Xanh dương */
+    --card-bg: #1e1e2d;
+    --border-color: #2b2b3b;
+    --text-color: #f0f0f0;
+    --secondary-text-color: #a0a0a0;
+    --button-success: #52b788;
+    --button-danger: #e63964;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    padding-bottom: 60px;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Poppins', sans-serif;
+    color: var(--main-color);
+    text-align: center;
+    font-weight: 600;
+}
+
+header.header-container {
+    background-color: var(--card-bg);
+    padding: 40px 20px 20px;
+    text-align: center;
+    border-bottom: 3px solid var(--accent-color);
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+header.header-container h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    animation: color-change 5s infinite; /* Dòng này đã được thêm */
+}
+
+
+
+main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 95px;
+    margin-bottom: 100px;
+    align-items: stretch;
+    justify-content: space-between; /* Đã thêm */
+    flex-wrap: wrap; /* Đã thêm */
+}
+
+.challenge-card {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    border: 2px solid;
+    border-image: linear-gradient(45deg, var(--main-color), var(--accent-color)) 1;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.challenge-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    transform: rotate(45deg); /* Thêm dòng này để xoay ban đầu */
+}
+
+.challenge-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5),
+                0 0 25px var(--main-color); /* Hiệu ứng phát sáng */
+}
+
+.challenge-card:hover::before {
+    opacity: 1;
+    transform: rotate(360deg); /* Thêm dòng này để xoay khi hover */
+}
+
+.challenge-card h2, .challenge-card p {
+    position: relative;
+    z-index: 1;
+}
+
+.section-container {
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    margin-bottom: 30px;
+    border: 2px solid;
+    border-image: linear-gradient(45deg, var(--main-color), var(--accent-color)) 1;
+}
+
+.section-container h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.post-item {
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--main-color);
+    animation: fadeIn 0.5s ease-out;
+}
+
+#notification-modal .modal-content {
+    background-color: var(--main-color);
+    color: var(--text-color);
+    border: none;
+    box-shadow: 0 5px 20px rgba(247, 37, 133, 0.5);
+    animation: slideInFromTop 0.5s ease-out;
+    top: 50px;
+    margin: 0 auto;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInFromTop {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-btn {
+    color: var(--text-color);
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--main-color);
+    text-decoration: none;
+}
+
+footer {
+    background-color: var(--card-bg);
+    text-align: center;
+    padding: 20px;
+    color: var(--secondary-text-color);
+    border-top: 2px solid var(--accent-color);
+}
+
+/* ==================== MEDIA QUERIES (RESPONSIVE) ==================== */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 30px 15px 15px;
+    }
+
+    .header-container h1 {
+        font-size: 1.8em;
+    }
+    
+    #auth-container {
+        position: static;
+        flex-direction: column;
+        padding-top: 10px;
+    }
+    
+    #search-container {
+        margin-top: 15px;
+    }
+
+    main {
+        padding: 0 10px;
+    }
+    
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-container {
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+    
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+/* ==================== CÁC KIỂU CỦA TRANG CHỦ (index.html) ==================== */
+#auth-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.auth-btn {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-btn:hover {
+    background-color: var(--main-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    color: white; /* Thêm dòng này để đổi màu chữ */
+}
+
+#user-display {
+    font-weight: 700;
+    color: var(--main-color);
+}
+
+#search-container {
+    margin-top: 20px;
+}
+
+#search-input {
+    width: 80%;
+    max-width: 500px;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    background-color: var(--border-color);
+    color: var(--text-color);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Thanh menu trượt */
+#side-menu {
+    height: 100%;
+    width: 280px;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    left: -280px;
+    background-color: #0d0d17;
+    padding-top: 60px;
+    transition: left 0.5s ease-in-out;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.5);
+}
+
+#side-menu.open {
+    left: 0;
+}
+
+#side-menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+#side-menu a {
+    padding: 18px 32px;
+    font-size: 18px;
+    color: var(--secondary-text-color);
+    display: block;
+    transition: 0.3s;
+    border-left: 5px solid transparent;
+}
+
+#side-menu a:hover {
+    color: var(--main-color);
+    background-color: var(--card-bg);
+    border-left: 5px solid var(--main-color);
+}
+
+.open-menu-btn {
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    color: var(--main-color);
+}
+
+.close-menu-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 40px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    padding-top: 20px;
+}
+
+.contact-info, .store-info, .map-container, .contact-form {
+    background-color: var(--bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.contact-form input, .contact-form textarea, .contact-form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+}
+
+.contact-form button {
+    background-color: var(--accent-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: var(--main-color);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
+    border: none;
+}
+
+@media (max-width: 900px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==================== CÁC KIỂU CHO HIỆU ỨNG TRÁI TIM ==================== */
+.hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.heart {
+    position: absolute;
+    top: -20px; /* Bắt đầu từ phía trên */
+    transform: rotate(45deg); /* Chỉnh lại góc quay để trái tim không bị lộn ngược */
+    opacity: 0;
+    animation: heart-fall linear infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: inherit;
+}
+
+.heart::before {
+    left: -50%;
+}
+
+.heart::after {
+    top: -50%;
+}
+
+@keyframes heart-fall {
+    0% {
+        transform: translateY(0vh) rotate(45deg); /* Bắt đầu từ vị trí 0 trên trục Y */
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(45deg); /* Rơi xuống 100vh (chiều cao màn hình) */
+        opacity: 0;
+    }
+}
+
+/*Css nút nhạc nền*/
+.music-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: var(--main-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.music-btn:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+}
+/* Modal đăng nhập, đăng ký, profile */
+#login-modal, #register-modal, #profile-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+}
+
+#login-modal .modal-content, #register-modal .modal-content, #profile-modal .modal-content {
+    background-color: var(--card-bg);
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--main-color);
+    animation: fadeIn 0.5s ease-out;
+    text-align: center;
+}
+
+#login-form-modal label, #register-form-modal label {
+    display: block;
+    text-align: left;
+    margin: 15px 0 5px;
+}
+
+#login-form-modal input, #register-form-modal input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+#login-form-modal button, #register-form-modal button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#login-form-modal button:hover, #register-form-modal button:hover {
+    background-color: var(--main-color);
+}
+
+#edit-profile-btn, #save-profile-btn, #cancel-edit-btn {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+#edit-profile-btn:hover, #save-profile-btn:hover {
+    background-color: var(--main-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    
+}
+
+#cancel-edit-btn {
+    background-color: var(--button-danger);
+}
+
+/* Thêm các kiểu cho nút chỉnh sửa và các form mới */
+#edit-profile-btn, #save-profile-btn, #cancel-edit-btn {
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: none;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+#edit-profile-btn:hover, #save-profile-btn:hover {
+    background-color: var(--main-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#cancel-edit-btn {
+    background-color: var(--button-danger);
+}
+
+#profile-content {
+    text-align: left;
+}
+
+#profile-content p {
+    margin: 10px 0;
+}
+
+#profile-content span {
+    font-weight: 400;
+}
+
+#edit-profile-form label {
+    display: block;
+    text-align: left;
+    margin: 15px 0 5px;
+}
+
+#edit-profile-form input, #edit-profile-form textarea, #edit-profile-form select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+#edit-profile-form button {
+    margin-top: 15px;
+    margin-right: 10px;
+}
+
+@keyframes color-change {
+    0% {
+        color: var(--main-color); /* Hồng neon */
+    }
+    14% {
+        color: #ff5733; /* Đỏ cam */
+    }
+    28% {
+        color: #ffbd33; /* Vàng cam */
+    }
+    42% {
+        color: #33ff57; /* Xanh lá */
+    }
+    56% {
+        color: #33d1ff; /* Xanh da trời */
+    }
+    70% {
+        color: var(--accent-color); /* Xanh dương */
+    }
+    84% {
+        color: #d133ff; /* Tím */
+    }
+    100% {
+        color: var(--main-color); /* Trở về hồng neon */
+    }
+}
+
+/* Thêm các chủ đề mới */
+body[data-theme="blue"] {
+    --bg-color: #0b1c31;
+    --main-color: #3f88c5;
+    --accent-color: #89b3d1;
+    --card-bg: #152a41;
+    --border-color: #213c57;
+    --text-color: #e0f0ff;
+    --secondary-text-color: #a7c5e2;
+    --button-success: #4a90e2;
+    --button-danger: #d0021b;
+}
+
+body[data-theme="green"] {
+    --bg-color: #12291b;
+    --main-color: #72b01d;
+    --accent-color: #3b6d21;
+    --card-bg: #1c3d25;
+    --border-color: #2b5434;
+    --text-color: #e5ffe7;
+    --secondary-text-color: #9cd4a1;
+    --button-success: #4CAF50;
+    --button-danger: #d32f2f;
+}
+
+/* Kiểu cho modal chọn chủ đề */
+#theme-modal .modal-content {
+    max-width: 450px;
+    padding: 20px;
+}
+
+.color-palette {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.color-swatch {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+    border-color: var(--main-color);
+}
+
+/* Các chủ đề màu mới */
+body[data-theme="orange"] {
+    --bg-color: #261f1c;
+    --main-color: #ff5733;
+    --accent-color: #e59500;
+    --card-bg: #382d28;
+    --border-color: #4b3c36;
+    --text-color: #fffaf0;
+    --secondary-text-color: #e0d5c9;
+    --button-success: #ff8c42;
+    --button-danger: #cf3721;
+}
+
+body[data-theme="purple"] {
+    --bg-color: #1c1526;
+    --main-color: #6a0572;
+    --accent-color: #a300d1;
+    --card-bg: #2d243a;
+    --border-color: #413552;
+    --text-color: #f0e6f8;
+    --secondary-text-color: #bfa1d8;
+    --button-success: #6c41a3;
+    --button-danger: #8a053c;
+}
+
+body[data-theme="red"] {
+    --bg-color: #2e1a1a;
+    --main-color: #d32f2f;
+    --accent-color: #ff5757;
+    --card-bg: #472b2b;
+    --border-color: #5c3c3c;
+    --text-color: #ffeaea;
+    --secondary-text-color: #d8b4b4;
+    --button-success: #c62828;
+    --button-danger: #ff5722;
+}
+
+body[data-theme="dark"] {
+    --bg-color: #121212;
+    --main-color: #ffffff;
+    --accent-color: #bb86fc;
+    --card-bg: #1e1e1e;
+    --border-color: #333333;
+    --text-color: #ffffff;
+    --secondary-text-color: #a0a0a0;
+    --button-success: #03dac6;
+    --button-danger: #cf6679;
+}
+
+body[data-theme="light"] {
+    --bg-color: #f0f0f0;
+    --main-color: #333333;
+    --accent-color: #007bff;
+    --card-bg: #ffffff;
+    --border-color: #cccccc;
+    --text-color: #333333;
+    --secondary-text-color: #666666;
+    --button-success: #28a745;
+    --button-danger: #dc3545;
+}
+
+/* Thêm các chủ đề mới */
+body[data-theme="teal"] {
+    --bg-color: #0a1a1a;
+    --main-color: #008080;
+    --accent-color: #00b3b3;
+    --card-bg: #143333;
+    --border-color: #234d4d;
+    --text-color: #e0fafa;
+    --secondary-text-color: #a0c0c0;
+    --button-success: #20b2aa;
+    --button-danger: #e63964;
+}
+
+body[data-theme="brown"] {
+    --bg-color: #261a12;
+    --main-color: #8B4513;
+    --accent-color: #a0522d;
+    --card-bg: #3b2c21;
+    --border-color: #4d3a2b;
+    --text-color: #f5f5dc;
+    --secondary-text-color: #d2b48c;
+    --button-success: #cd853f;
+    --button-danger: #e63964;
+}
+
+body[data-theme="cyan"] {
+    --bg-color: #1a2a2a;
+    --main-color: #00FFFF;
+    --accent-color: #40e0d0;
+    --card-bg: #2b3d3d;
+    --border-color: #3b4d4d;
+    --text-color: #e0ffff;
+    --secondary-text-color: #a0ffff;
+    --button-success: #00ced1;
+    --button-danger: #e63964;
+}
+
+body[data-theme="indigo"] {
+    --bg-color: #0e0e1e;
+    --main-color: #4B0082;
+    --accent-color: #6a0572;
+    --card-bg: #1e1e2d;
+    --border-color: #2b2b3b;
+    --text-color: #e6e6fa;
+    --secondary-text-color: #a0a0c0;
+    --button-success: #8a2be2;
+    --button-danger: #e63964;
+}
+
+body[data-theme="maroon"] {
+    --bg-color: #1a0a0a;
+    --main-color: #800000;
+    --accent-color: #b22222;
+    --card-bg: #2a1414;
+    --border-color: #3b2b2b;
+    --text-color: #faf0e6;
+    --secondary-text-color: #d2b48c;
+    --button-success: #cd5c5c;
+    --button-danger: #e63964;
+}
+
+body[data-theme="olive"] {
+    --bg-color: #1a1a0a;
+    --main-color: #808000;
+    --accent-color: #bdb76b;
+    --card-bg: #2a2a14;
+    --border-color: #3b3b2b;
+    --text-color: #f0e68c;
+    --secondary-text-color: #d8c89b;
+    --button-success: #9acd32;
+    --button-danger: #e63964;
+}
+
+body[data-theme="salmon"] {
+    --bg-color: #2e1a1a;
+    --main-color: #FA8072;
+    --accent-color: #e9967a;
+    --card-bg: #3d2b2b;
+    --border-color: #4d3a3a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8c0b5;
+    --button-success: #ff7f50;
+    --button-danger: #e63964;
+}
+
+body[data-theme="slate"] {
+    --bg-color: #1e262c;
+    --main-color: #708090;
+    --accent-color: #a0b0c0;
+    --card-bg: #2d3840;
+    --border-color: #3c4950;
+    --text-color: #e8f0f8;
+    --secondary-text-color: #b8c8d8;
+    --button-success: #6a5acd;
+    --button-danger: #e63964;
+}
+
+body[data-theme="coral"] {
+    --bg-color: #2e1a1a;
+    --main-color: #FF7F50;
+    --accent-color: #ff6347;
+    --card-bg: #3d2b2b;
+    --border-color: #4d3a3a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8c0b5;
+    --button-success: #ff4500;
+    --button-danger: #e63964;
+}
+
+body[data-theme="gold"] {
+    --bg-color: #261f12;
+    --main-color: #FFD700;
+    --accent-color: #daa520;
+    --card-bg: #382e1c;
+    --border-color: #4b3d2b;
+    --text-color: #fff8dc;
+    --secondary-text-color: #e0d5c9;
+    --button-success: #ffc400;
+    --button-danger: #e63964;
+}
+
+body[data-theme="khaki"] {
+    --bg-color: #2e2a1e;
+    --main-color: #F0E68C;
+    --accent-color: #bdb76b;
+    --card-bg: #3d3b2d;
+    --border-color: #4d4b3c;
+    --text-color: #fff;
+    --secondary-text-color: #d8d2b8;
+    --button-success: #9acd32;
+    --button-danger: #e63964;
+}
+
+body[data-theme="navy"] {
+    --bg-color: #08081a;
+    --main-color: #000080;
+    --accent-color: #0000cd;
+    --card-bg: #10102a;
+    --border-color: #1a1a3b;
+    --text-color: #e0e0ff;
+    --secondary-text-color: #a0a0c0;
+    --button-success: #4169e1;
+    --button-danger: #e63964;
+}
+
+body[data-theme="pink"] {
+    --bg-color: #2a1a2a;
+    --main-color: #FFC0CB;
+    --accent-color: #ff69b4;
+    --card-bg: #3a2b3a;
+    --border-color: #4a3c4a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8b0d8;
+    --button-success: #ff1493;
+    --button-danger: #e63964;
+}
+
+body[data-theme="silver"] {
+    --bg-color: #202020;
+    --main-color: #C0C0C0;
+    --accent-color: #a0a0a0;
+    --card-bg: #2e2e2e;
+    --border-color: #3b3b3b;
+    --text-color: #f0f0f0;
+    --secondary-text-color: #b8b8b8;
+    --button-success: #dcdcdc;
+    --button-danger: #e63964;
+}
+
+body[data-theme="skyblue"] {
+    --bg-color: #1a2a2e;
+    --main-color: #87CEEB;
+    --accent-color: #4682b4;
+    --card-bg: #2b3a3f;
+    --border-color: #3b4d52;
+    --text-color: #f0f8ff;
+    --secondary-text-color: #a0c0d0;
+    --button-success: #87cefa;
+    --button-danger: #e63964;
+}
+
+body[data-theme="violet"] {
+    --bg-color: #221a2e;
+    --main-color: #EE82EE;
+    --accent-color: #da70d6;
+    --card-bg: #322b3e;
+    --border-color: #423b4e;
+    --text-color: #fff0ff;
+    --secondary-text-color: #d0b0d0;
+    --button-success: #8a2be2;
+    --button-danger: #e63964;
+}
+
+body[data-theme="aqua"] {
+    --bg-color: #1a2a2e;
+    --main-color: #00FFFF;
+    --accent-color: #00ffff;
+    --card-bg: #2b3f3f;
+    --border-color: #3b4d4d;
+    --text-color: #e0ffff;
+    --secondary-text-color: #a0ffff;
+    --button-success: #00ced1;
+    --button-danger: #e63964;
+}
+
+body[data-theme="crimson"] {
+    --bg-color: #2e1a1a;
+    --main-color: #DC143C;
+    --accent-color: #ff6347;
+    --card-bg: #3d2b2b;
+    --border-color: #4d3a3a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8c0b5;
+    --button-success: #ff4500;
+    --button-danger: #e63964;
+}
+
+body[data-theme="fuchsia"] {
+    --bg-color: #2e1a2e;
+    --main-color: #FF00FF;
+    --accent-color: #ff69b4;
+    --card-bg: #3d2b3d;
+    --border-color: #4d3a4d;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8b0d8;
+    --button-success: #ff1493;
+    --button-danger: #e63964;
+}
+
+body[data-theme="lime"] {
+    --bg-color: #1a2e1a;
+    --main-color: #00FF00;
+    --accent-color: #32cd32;
+    --card-bg: #2a3a2a;
+    --border-color: #3b4d3b;
+    --text-color: #f0fff0;
+    --secondary-text-color: #a0c0a0;
+    --button-success: #7fff00;
+    --button-danger: #e63964;
+}
+
+body[data-theme="orchid"] {
+    --bg-color: #2a1a2a;
+    --main-color: #DA70D6;
+    --accent-color: #ba55d3;
+    --card-bg: #3a2b3a;
+    --border-color: #4a3c4a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8b0d8;
+    --button-success: #9932cc;
+    --button-danger: #e63964;
+}
+
+body[data-theme="peru"] {
+    --bg-color: #2a221a;
+    --main-color: #CD853F;
+    --accent-color: #d2691e;
+    --card-bg: #3a322b;
+    --border-color: #4a423b;
+    --text-color: #f5f5dc;
+    --secondary-text-color: #d2b48c;
+    --button-success: #b8860b;
+    --button-danger: #e63964;
+}
+
+body[data-theme="sienna"] {
+    --bg-color: #2a221a;
+    --main-color: #A0522D;
+    --accent-color: #8b4513;
+    --card-bg: #3a322b;
+    --border-color: #4a423b;
+    --text-color: #f5f5dc;
+    --secondary-text-color: #d2b48c;
+    --button-success: #b8860b;
+    --button-danger: #e63964;
+}
+
+body[data-theme="springgreen"] {
+    --bg-color: #1a2a1a;
+    --main-color: #00FF7F;
+    --accent-color: #32cd32;
+    --card-bg: #2a3a2a;
+    --border-color: #3b4a3b;
+    --text-color: #f0fff0;
+    --secondary-text-color: #a0c0a0;
+    --button-success: #7fff00;
+    --button-danger: #e63964;
+}
+
+body[data-theme="tomato"] {
+    --bg-color: #2e1a1a;
+    --main-color: #FF6347;
+    --accent-color: #ff4500;
+    --card-bg: #3d2b2b;
+    --border-color: #4d3a3a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8c0b5;
+    --button-success: #ff7f50;
+    --button-danger: #e63964;
+}
+
+body[data-theme="turquoise"] {
+    --bg-color: #1a2a2e;
+    --main-color: #40E0D0;
+    --accent-color: #48d1cc;
+    --card-bg: #2b3a3f;
+    --border-color: #3b4d52;
+    --text-color: #f0f8ff;
+    --secondary-text-color: #a0c0d0;
+    --button-success: #00ced1;
+    --button-danger: #e63964;
+}
+
+body[data-theme="aquamarine"] {
+    --bg-color: #1a2a2e;
+    --main-color: #7FFFD4;
+    --accent-color: #40e0d0;
+    --card-bg: #2b3a3f;
+    --border-color: #3b4d52;
+    --text-color: #f0f8ff;
+    --secondary-text-color: #a0c0d0;
+    --button-success: #00ced1;
+    --button-danger: #e63964;
+}
+
+body[data-theme="chartreuse"] {
+    --bg-color: #1a2a1a;
+    --main-color: #7FFF00;
+    --accent-color: #9acd32;
+    --card-bg: #2a3a2a;
+    --border-color: #3b4a3b;
+    --text-color: #f0fff0;
+    --secondary-text-color: #a0c0a0;
+    --button-success: #00ff7f;
+    --button-danger: #e63964;
+}
+
+body[data-theme="chocolate"] {
+    --bg-color: #2a221a;
+    --main-color: #D2691E;
+    --accent-color: #cd853f;
+    --card-bg: #3a322b;
+    --border-color: #4a423b;
+    --text-color: #f5f5dc;
+    --secondary-text-color: #d2b48c;
+    --button-success: #b8860b;
+    --button-danger: #e63964;
+}
+
+body[data-theme="cornflowerblue"] {
+    --bg-color: #1a2a2e;
+    --main-color: #6495ED;
+    --accent-color: #4682b4;
+    --card-bg: #2b3a3f;
+    --border-color: #3b4d52;
+    --text-color: #f0f8ff;
+    --secondary-text-color: #a0c0d0;
+    --button-success: #4169e1;
+    --button-danger: #e63964;
+}
+
+body[data-theme="darkmagenta"] {
+    --bg-color: #1a0e1a;
+    --main-color: #8B008B;
+    --accent-color: #9932cc;
+    --card-bg: #2a1e2a;
+    --border-color: #3b2b3b;
+    --text-color: #f0e6f8;
+    --secondary-text-color: #bfa1d8;
+    --button-success: #8a2be2;
+    --button-danger: #e63964;
+}
+
+body[data-theme="firebrick"] {
+    --bg-color: #2e1a1a;
+    --main-color: #B22222;
+    --accent-color: #800000;
+    --card-bg: #3d2b2b;
+    --border-color: #4d3a3a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8c0b5;
+    --button-success: #c62828;
+    --button-danger: #e63964;
+}
+
+body[data-theme="hotpink"] {
+    --bg-color: #2a1a2e;
+    --main-color: #FF69B4;
+    --accent-color: #ff1493;
+    --card-bg: #3a2b3a;
+    --border-color: #4a3c4a;
+    --text-color: #fff0f5;
+    --secondary-text-color: #d8b0d8;
+    --button-success: #ff007f;
+    --button-danger: #e63964;
+}
+
+body[data-theme="indigo"] {
+    --bg-color: #0e0e1e;
+    --main-color: #4B0082;
+    --accent-color: #6a0572;
+    --card-bg: #1e1e2d;
+    --border-color: #2b2b3b;
+    --text-color: #e6e6fa;
+    --secondary-text-color: #a0a0c0;
+    --button-success: #8a2be2;
+    --button-danger: #e63964;
+}
+
+body[data-theme="lavender"] {
+    --bg-color: #2a2a2e;
+    --main-color: #E6E6FA;
+    --accent-color: #b0c4de;
+    --card-bg: #3a3a3f;
+    --border-color: #4a4a52;
+    --text-color: #000;
+    --secondary-text-color: #666;
+    --button-success: #9370db;
+    --button-danger: #e63964;
+}
+
+body[data-theme="limegreen"] {
+    --bg-color: #1a2a1a;
+    --main-color: #32CD32;
+    --accent-color: #00ff7f;
+    --card-bg: #2a3a2a;
+    --border-color: #3b4a3b;
+    --text-color: #f0fff0;
+    --secondary-text-color: #a0c0a0;
+    --button-success: #7fff00;
+    --button-danger: #e63964;
+}
+
+body[data-theme="mediumseagreen"] {
+    --bg-color: #1a2a1a;
+    --main-color: #3CB371;
+    --accent-color: #2e8b57;
+    --card-bg: #2a3a2a;
+    --border-color: #3b4a3b;
+    --text-color: #f0fff0;
+    --secondary-text-color: #a0c0a0;
+    --button-success: #20b2aa;
+    --button-danger: #e63964;
+}
+
+body[data-theme="midnightblue"] {
+    --bg-color: #0c0c16;
+    --main-color: #191970;
+    --accent-color: #4169e1;
+    --card-bg: #19192c;
+    --border-color: #2b2b3b;
+    --text-color: #e0e0ff;
+    --secondary-text-color: #a0a0c0;
+    --button-success: #4682b4;
+    --button-danger: #e63964;
+}
+
+body[data-theme="paleturquoise"] {
+    --bg-color: #2a2e2e;
+    --main-color: #AFEEEE;
+    --accent-color: #40e0d0;
+    --card-bg: #3a3f3f;
+    --border-color: #4a4d4d;
+    --text-color: #000;
+    --secondary-text-color: #666;
+    --button-success: #00ced1;
+    --button-danger: #e63964;
+}
+
+body[data-theme="rosybrown"] {
+    --bg-color: #2a2a2a;
+    --main-color: #BC8F8F;
+    --accent-color: #cd853f;
+    --card-bg: #3a3a3a;
+    --border-color: #4a4a4a;
+    --text-color: #d8c0b5;
+    --secondary-text-color: #a0a0a0;
+    --button-success: #8b4513;
+    --button-danger: #e63964;
+}
+
+body[data-theme="saddlebrown"] {
+    --bg-color: #2a221a;
+    --main-color: #8B4513;
+    --accent-color: #a0522d;
+    --card-bg: #3a322b;
+    --border-color: #4a423b;
+    --text-color: #f5f5dc;
+    --secondary-text-color: #d2b48c;
+    --button-success: #cd853f;
+    --button-danger: #e63964;
+}
+
+body[data-theme="seagreen"] {
+    --bg-color: #1a2a1a;
+    --main-color: #2E8B57;
+    --accent-color: #3cb371;
+    --card-bg: #2a3a2a;
+    --border-color: #3b4a3b;
+    --text-color: #f0fff0;
+    --secondary-text-color: #a0c0a0;
+    --button-success: #20b2aa;
+    --button-danger: #e63964;
+}
+
+body[data-theme="steelblue"] {
+    --bg-color: #1a2a2e;
+    --main-color: #4682B4;
+    --accent-color: #6a95ed;
+    --card-bg: #2b3a3f;
+    --border-color: #3b4d52;
+    --text-color: #f0f8ff;
+    --secondary-text-color: #a0c0d0;
+    --button-success: #4169e1;
+    --button-danger: #e63964;
+}
+/* === HIỆU ỨNG XUẤT HIỆN KHI CUỘN === */
+.hidden-on-load {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.hidden-on-load.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* === BỔ SUNG CSS CHO HEADER MỚI === */
+.header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    padding-top: 100px; /* Tăng padding trên để có đủ không gian cho logo và nút menu */
+    width: 100%; /* Đảm bảo header chiếm toàn bộ chiều ngang */
+    box-sizing: border-box; /* Ngăn header bị tràn do padding */
+}
+
+.logo-link {
+    position: fixed; /* Đổi lại thành fixed để logo cố định khi cuộn trang */
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background-color: var(--card-bg);
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+    height: 80px; /* Giữ nguyên kích thước logo */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0; 
+}
+
+.header-container h1 {
+    margin: 10px 0 5px;
+}
+
+#search-container {
+    margin-top: 10px;
+}
+
+#auth-container {
+    position: fixed; /* Đổi lại thành fixed để auth container cố định */
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.open-menu-btn {
+    position: fixed; /* Đổi lại thành fixed để nút menu cố định */
+    top: 20px;
+    left: 110px; /* Dịch chuyển nút mở menu sang phải để không bị logo che */
+}
+
+#admin-link {
+    display: block;
+    margin: 10px auto;
+    font-weight: 600;
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+#admin-link:hover {
+    color: var(--main-color);
+}
+
+/* Điều chỉnh responsive cho các thiết bị nhỏ hơn */
+@media (max-width: 768px) {
+    .header-container {
+        padding-top: 100px;
+        padding-bottom: 20px;
+    }
+    .open-menu-btn {
+        top: 15px;
+        left: 15px;
+    }
+    #auth-container {
+        top: 15px;
+        right: 15px;
+    }
+    .logo-link {
+        top: 15px;
+        left: 15px;
+    }
+    .open-menu-btn {
+        left: 110px;
+    }
+}

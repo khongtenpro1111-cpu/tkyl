@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thử Thách Sáng Tạo Mỗi Ngày</title>
+ 
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header-container">
+        <a href="index.html" class="logo-link">
+            <img src="img/logo/creadaily.png" alt="Creative Challenges Logo" class="logo">
+        </a>
+
+    <div class="hearts-container" id="hearts-container"></div>
+    <audio id="background-music" loop>
+        <source src="audio/suoi-rung-nuoi-duong-tam-hon-nhac-nen-video-223493.mp3" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ thẻ audio.
+    </audio>
+
+
+
+<button id="show-theme-modal" class="auth-btn">Chọn Chủ đề</button>
+
+
+<div id="theme-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" id="close-theme-modal-btn">×</span>
+        <h2>Chọn Chủ đề</h2>
+        <div class="color-palette">
+            <button class="color-swatch" data-theme="default" style="background-color: #f72585;"></button>
+            <button class="color-swatch" data-theme="blue" style="background-color: #3f88c5;"></button>
+            <button class="color-swatch" data-theme="green" style="background-color: #72b01d;"></button>
+            <button class="color-swatch" data-theme="orange" style="background-color: #ff5733;"></button>
+            <button class="color-swatch" data-theme="purple" style="background-color: #6a0572;"></button>
+            <button class="color-swatch" data-theme="red" style="background-color: #d32f2f;"></button>
+            <button class="color-swatch" data-theme="dark" style="background-color: #1a1a1a;"></button>
+            <button class="color-swatch" data-theme="light" style="background-color: #f0f0f0;"></button>
+            
+            <button class="color-swatch" data-theme="teal" style="background-color: #008080;"></button>
+            <button class="color-swatch" data-theme="brown" style="background-color: #8B4513;"></button>
+            <button class="color-swatch" data-theme="cyan" style="background-color: #00FFFF;"></button>
+            <button class="color-swatch" data-theme="indigo" style="background-color: #4B0082;"></button>
+            <button class="color-swatch" data-theme="maroon" style="background-color: #800000;"></button>
+            <button class="color-swatch" data-theme="olive" style="background-color: #808000;"></button>
+            <button class="color-swatch" data-theme="salmon" style="background-color: #FA8072;"></button>
+            <button class="color-swatch" data-theme="slate" style="background-color: #708090;"></button>
+            <button class="color-swatch" data-theme="coral" style="background-color: #FF7F50;"></button>
+            <button class="color-swatch" data-theme="gold" style="background-color: #FFD700;"></button>
+            <button class="color-swatch" data-theme="khaki" style="background-color: #F0E68C;"></button>
+            <button class="color-swatch" data-theme="navy" style="background-color: #000080;"></button>
+            <button class="color-swatch" data-theme="pink" style="background-color: #FFC0CB;"></button>
+            <button class="color-swatch" data-theme="silver" style="background-color: #C0C0C0;"></button>
+            <button class="color-swatch" data-theme="skyblue" style="background-color: #87CEEB;"></button>
+            <button class="color-swatch" data-theme="violet" style="background-color: #EE82EE;"></button>
+            <button class="color-swatch" data-theme="aqua" style="background-color: #00FFFF;"></button>
+            <button class="color-swatch" data-theme="crimson" style="background-color: #DC143C;"></button>
+            <button class="color-swatch" data-theme="fuchsia" style="background-color: #FF00FF;"></button>
+            <button class="color-swatch" data-theme="lime" style="background-color: #00FF00;"></button>
+            <button class="color-swatch" data-theme="orchid" style="background-color: #DA70D6;"></button>
+            <button class="color-swatch" data-theme="peru" style="background-color: #CD853F;"></button>
+            <button class="color-swatch" data-theme="sienna" style="background-color: #A0522D;"></button>
+            <button class="color-swatch" data-theme="springgreen" style="background-color: #00FF7F;"></button>
+            <button class="color-swatch" data-theme="tomato" style="background-color: #FF6347;"></button>
+            <button class="color-swatch" data-theme="turquoise" style="background-color: #40E0D0;"></button>
+            <button class="color-swatch" data-theme="aquamarine" style="background-color: #7FFFD4;"></button>
+            <button class="color-swatch" data-theme="chartreuse" style="background-color: #7FFF00;"></button>
+            <button class="color-swatch" data-theme="chocolate" style="background-color: #D2691E;"></button>
+            <button class="color-swatch" data-theme="cornflowerblue" style="background-color: #6495ED;"></button>
+            <button class="color-swatch" data-theme="darkmagenta" style="background-color: #8B008B;"></button>
+            <button class="color-swatch" data-theme="firebrick" style="background-color: #B22222;"></button>
+            <button class="color-swatch" data-theme="hotpink" style="background-color: #FF69B4;"></button>
+            <button class="color-swatch" data-theme="indigo" style="background-color: #4B0082;"></button>
+            <button class="color-swatch" data-theme="lavender" style="background-color: #E6E6FA;"></button>
+            <button class="color-swatch" data-theme="limegreen" style="background-color: #32CD32;"></button>
+            <button class="color-swatch" data-theme="mediumseagreen" style="background-color: #3CB371;"></button>
+            <button class="color-swatch" data-theme="midnightblue" style="background-color: #191970;"></button>
+            <button class="color-swatch" data-theme="paleturquoise" style="background-color: #AFEEEE;"></button>
+            <button class="color-swatch" data-theme="rosybrown" style="background-color: #BC8F8F;"></button>
+            <button class="color-swatch" data-theme="saddlebrown" style="background-color: #8B4513;"></button>
+            <button class="color-swatch" data-theme="seagreen" style="background-color: #2E8B57;"></button>
+            <button class="color-swatch" data-theme="steelblue" style="background-color: #4682B4;"></button>
+        </div>
+        <button id="close-palette-btn" class="auth-btn">Đóng</button>
+    </div>
+</div>
+
+    <div id="side-menu" class="hidden">
+        <div class="menu-header">
+            <span class="close-menu-btn">×</span>
+        </div>
+        <nav id="main-nav">
+            <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="thuthach.html">Thử thách</a></li>
+                <li><a href="khotruyen.html">Kho truyện</a></li>
+                <li><a href="danhmuccongnghe.html">Công nghệ</a></li>
+                <li><a href="kynangmem.html">Kỹ năng mềm</a></li>
+                <li><a href="khoinguoncamhung.html">Cảm hứng</a></li>
+                <li><a href="trochoi.html">Trò chơi</a></li>
+                <li><a href="binhchonthuthach.htlm">Bình chọn</a></li>
+                <li><a href="cactacphamcongdong.html">Tác phẩm cộng đồng</a></li>
+                <li><a href="tienich.html">Tiện ích</a></li>
+            </ul>
+        </nav>
+    </div>
+
+
+    <a href="admin.html" id="admin-link" style="display: none; text-align: center; margin-top: 20px;">Đi đến trang Admin</a>
+
+    <header class="header-container">
+        <div id="auth-container">
+            <div id="logged-out-view">
+                <button id="show-login-btn" class="auth-btn">Đăng nhập</button>
+                <button id="show-register-btn" class="auth-btn">Đăng ký</button>
+            </div>
+            <div id="logged-in-view" style="display: none;">
+                <span id="user-display"></span>
+                <button id="show-profile-btn" class="auth-btn">Thông tin</button>
+                <button id="logout-btn" class="auth-btn">Đăng xuất</button>
+            </div>
+        </div>
+        <div id="header-content">
+            <span class="open-menu-btn">☰</span>
+            <h1>Thử Thách Sáng Tạo Mỗi Ngày</h1>
+        </div>
+        <p>Khơi dậy niềm đam mê và sáng tạo của bạn</p>
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Tìm kiếm tác phẩm...">
+        </div>
+    </header>
+
+    <main>
+        <div class="card-grid">
+            <a href="thuthach.html" class="card-link" data-search-terms="thử thách hôm nay hàng ngày">
+                <div class="challenge-card">
+                    <h2>Thử thách hôm nay</h2>
+                    <p>Nhấn vào đây để xem và tham gia thử thách hàng ngày!</p>
+                </div>
+            </a>
+
+            <a href="khotruyen.html" class="card-link" data-search-terms="kho truyện online câu chuyện cảm hứng">
+                <div class="challenge-card">
+                    <h2>Kho truyện online</h2>
+                    <p>Khám phá những câu chuyện thú vị và đầy cảm hứng!</p>
+                </div>
+            </a>
+
+            <a href="danhmuccongnghe.html" class="card-link" data-search-terms="danh mục công nghệ tương lai sản phẩm độc đáo">
+                <div class="challenge-card">
+                    <h2>Danh mục Công nghệ Tương lai</h2>
+                    <p>Khám phá các sản phẩm công nghệ độc đáo và tương lai!</p>
+                </div>
+            </a>
+
+            <a href="khoinguoncamhung.html" class="card-link" data-search-terms="khơi nguồn cảm hứng ý tưởng sáng tạo">
+                <div class="challenge-card">
+                    <h2>💡 Khơi nguồn Cảm hứng</h2>
+                    <p>Nhấn vào đây để tìm ý tưởng sáng tạo cho riêng bạn!</p>
+                </div>
+            </a>
+            
+            <a href="kynangmem.html" class="card-link" data-search-terms="danh mục kỹ năng mềm phát triển bản thân">
+                <div class="challenge-card">
+                    <h2>Danh mục Kỹ năng mềm</h2>
+                    <p>Khám phá và rèn luyện các kỹ năng mềm thiết yếu!</p>
+                </div>
+            </a>
+
+            <a href="trochoi.html" class="card-link" data-search-terms="danh mục trò chơi giải trí thú vị">
+                <div class="challenge-card">
+                    <h2>Danh Mục Trò Chơi</h2>
+                    <p>Giải trí với các trò chơi nhỏ thú vị!</p>
+                </div>
+            </a>
+
+            <a href="cactacphamcongdong.html" class="card-link" data-search-terms="tác phẩm cộng đồng sáng tạo chia sẻ media ảnh video">
+            <div class="challenge-card">
+                <h2>Tác phẩm Cộng đồng</h2>
+                <p>Chiêm ngưỡng và chia sẻ tác phẩm sáng tạo của mọi người!</p>
+            </div>
+        </a>
+            
+            <a href="tienich.html" class="card-link" data-search-terms="công cụ tiện ích công cụ hữu ích">
+                <div class="challenge-card">
+                    <h2>Công Cụ Tiện Ích</h2>
+                    <p>Khám phá các công cụ giúp công việc và cuộc sống của bạn dễ dàng hơn!</p>
+                </div>
+            </a>
+        </div>
+        
+        <section id="challenge-voting" class="section-container">
+            <h2>Bình chọn thử thách tuần này</h2>
+            <div id="proposed-challenges-container" class="challenge-voting-grid">
+            </div>
+            <button id="propose-challenge-btn" class="propose-btn" style="display: none;">Đề xuất thử thách mới</button>
+        </section>
+        
+        <section id="leaderboard" class="section-container">
+            <h2>🏆 Bảng xếp hạng Người dùng</h2>
+            <div id="leaderboard-container">
+                </div>
+        </section>
+
+        <section id="hall-of-fame" class="section-container">
+            <h2>🏆 Bảng vàng Sáng tạo</h2>
+            <div id="top-posts-container" class="grid-container">
+            </div>
+        </section>
+
+        <section id="community-feed" class="section-container">
+            <h2>Các tác phẩm của cộng đồng</h2>
+            <div id="posts-container" class="grid-container">
+            </div>
+        </section>
+
+        <section id="contact-section" class="section-container">
+            <h2>Liên hệ & Thông tin cửa hàng</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Thông tin liên hệ</h3>
+                    <p><strong>Hotline:</strong> 09xx.xxx.xxx</p>
+                    <p><strong>Email:</strong> info@yourstore.com</p>
+                    <p><strong>Giờ làm việc:</strong> 8:00 - 18:00 (Thứ Hai - Thứ Bảy)</p>
+                </div>
+    
+                <div class="store-info">
+                    <h3>Địa chỉ cửa hàng</h3>
+                    <p><strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, Thành phố Hồ Chí Minh</p>
+                    <p>Chúng em luôn chào đón quý khách hàng đến tham quan và trải nghiệm!</p>
+                </div>
+    
+                <div class="map-container">
+                    <iframe src="https://maps.google.com/maps?q=123 Đường ABC, Quận 1, Thành phố Hồ Chí Minh&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+    
+                <div class="contact-form">
+                    <h3>Gửi tin nhắn cho chúng tôi</h3>
+                    <form id="contactForm">
+                        <input type="text" id="name" name="name" placeholder="Tên của bạn" required>
+                        <input type="email" id="email" name="email" placeholder="Email của bạn" required>
+                        <textarea id="message" name="message" rows="5" placeholder="Nội dung tin nhắn..." required></textarea>
+                        <button type="submit">Gửi tin nhắn</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="challenge-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <h2>Đề xuất Thử thách mới</h2>
+            <form id="propose-challenge-form">
+                <textarea id="new-challenge-text" placeholder="Nhập thử thách của bạn..." required></textarea>
+                <button type="submit">Gửi đề xuất</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="notification-modal" class="modal">
+        <div class="modal-content">
+            <p id="notification-message"></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Creative Hub. Bản quyền thuộc về Js Trung Kiên.</p>
+    </footer>
+
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-cart-btn">×</span>
+            <h2>Giỏ hàng của bạn</h2>
+            <div id="cart-items-container">
+            </div>
+            <div class="cart-summary">
+                <h3>Tổng cộng: <span id="cart-total">0 VNĐ</span></h3>
+                <button id="checkout-btn">Thanh toán</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-checkout-btn">×</span>
+            <h2>Thông tin thanh toán</h2>
+            <form id="checkout-form">
+                <label for="customer-name">Họ và tên:</label>
+                <input type="text" id="customer-name" required>
+                <label for="customer-address">Địa chỉ:</label>
+                <input type="text" id="customer-address" required>
+                <label for="customer-phone">Số điện thoại:</label>
+                <input type="tel" id="customer-phone" required>
+                <button type="submit">Xác nhận thanh toán</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <h2>Đăng nhập</h2>
+            <form id="login-form-modal">
+                <label for="login-username">Tên người dùng</label>
+                <input type="text" id="login-username" required>
+                <label for="login-password">Mật khẩu</label>
+                <input type="password" id="login-password" required>
+                <button type="submit">Đăng nhập</button>
+                <p>Chưa có tài khoản? <a href="#" id="show-register-from-login">Đăng ký ngay!</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <h2>Đăng ký</h2>
+            <form id="register-form-modal">
+                <label for="register-name">Họ và tên</label>
+                <input type="text" id="register-name" required>
+                <label for="register-email">Email</label>
+                <input type="email" id="register-email" required>
+                <label for="register-username">Tên người dùng</label>
+                <input type="text" id="register-username" required>
+                <label for="register-password">Mật khẩu</label>
+                <input type="password" id="register-password" required>
+                <button type="submit">Đăng ký</button>
+                <p>Đã có tài khoản? <a href="#" id="show-login-from-register">Đăng nhập ngay!</a></p>
+            </form>
+        </div>
+    </div>
+
+   <div id="profile-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">×</span>
+        <h2>Thông tin cá nhân</h2>
+        <div id="profile-view">
+            <p><strong>Họ và tên:</strong> <span id="profile-name"></span></p>
+            <p><strong>Email:</strong> <span id="profile-email"></span></p>
+            <p><strong>Ngày sinh:</strong> <span id="profile-dob"></span></p>
+            <p><strong>Giới tính:</strong> <span id="profile-gender"></span></p>
+            <p><strong>Nghề nghiệp:</strong> <span id="profile-occupation"></span></p>
+            <p><strong>Tiểu sử:</strong> <span id="profile-bio"></span></p>
+            <p><strong>Tên người dùng:</strong> <span id="profile-username"></span></p>
+            <p><strong>Tổng điểm tích lũy:</strong> <span id="profile-points"></span></p>
+            <button id="edit-profile-btn" class="auth-btn">Chỉnh sửa</button>
+        </div>
+        <form id="edit-profile-form" style="display: none;">
+            <label for="edit-name">Họ và tên:</label>
+            <input type="text" id="edit-name">
+            <label for="edit-email">Email:</label>
+            <input type="email" id="edit-email">
+            <label for="edit-dob">Ngày sinh:</label>
+            <input type="date" id="edit-dob">
+            <label for="edit-gender">Giới tính:</label>
+            <select id="edit-gender">
+                <option value="">Chọn giới tính</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+                <option value="Khác">Khác</option>
+            </select>
+            <label for="edit-occupation">Nghề nghiệp:</label>
+            <input type="text" id="edit-occupation">
+            <label for="edit-bio">Tiểu sử:</label>
+            <textarea id="edit-bio"></textarea>
+            <button type="submit" id="save-profile-btn">Lưu thay đổi</button>
+            <button type="button" id="cancel-edit-btn">Hủy</button>
+        </form>
+    </div>
+</div>
+    
+    <button id="music-toggle-btn" class="music-btn">Nhạc nền: Tắt</button>
+
+    <script src="main.js"></script>
+</body>
+</html>
