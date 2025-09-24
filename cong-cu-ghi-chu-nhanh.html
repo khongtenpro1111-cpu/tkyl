@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Ghi Chú Nhanh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================== CÁC BIẾN VÀ THIẾT LẬP CHUNG ==================== */
+        :root {
+            --bg-color: #12121e;
+            --main-color: #f72585; /* Hồng neon */
+            --accent-color: #4361ee; /* Xanh dương */
+            --card-bg: #1e1e2d;
+            --border-color: #2b2b3b;
+            --text-color: #f0f0f0;
+            --secondary-text-color: #a0a0a0;
+            --button-success: #52b788;
+            --button-danger: #e63964;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--main-color);
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        /* ==================== HEADER & FOOTER ==================== */
+        header.header-container {
+            background-color: var(--card-bg);
+            padding: 40px 20px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header.header-container h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            animation: none;
+        }
+        
+        footer {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-text-color);
+            border-top: 2px solid var(--accent-color);
+        }
+
+        /* ==================== GIAO DIỆN CHÍNH CỦA CÔNG CỤ ==================== */
+        .notes-app-container {
+            max-width: 1000px;
+            height: 650px;
+            margin: 30px auto;
+            padding: 40px;
+            text-align: center;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--main-color), var(--accent-color)) 1;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            gap: 20px;
+        }
+
+        .notes-sidebar {
+            width: 300px;
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notes-sidebar h3 {
+            color: var(--accent-color);
+            margin: 0 0 10px 0;
+        }
+
+        .notes-sidebar input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #1a1a25;
+            color: var(--text-color);
+            box-sizing: border-box;
+        }
+
+        .add-note-btn {
+            background-color: var(--main-color);
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .add-note-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+
+        .note-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            overflow-y: auto;
+            flex: 1;
+            margin-top: 10px;
+        }
+
+        .note-list li {
+            background-color: #1a1a25;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .note-list li:hover {
+            background-color: var(--border-color);
+        }
+
+        .note-list li.active {
+            border: 2px solid var(--accent-color);
+        }
+
+        .notes-main-content {
+            flex: 1;
+            background-color: var(--bg-color);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notes-main-content textarea {
+            flex: 1;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #1a1a25;
+            color: var(--text-color);
+            font-size: 1.1em;
+            resize: none;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .note-title-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #1a1a25;
+            color: var(--text-color);
+            font-size: 1.2em;
+            box-sizing: border-box;
+        }
+
+        .notes-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .notes-controls button {
+            background-color: var(--button-danger);
+            color: var(--text-color);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .notes-controls button:hover {
+            background-color: #c92f59;
+        }
+        
+        .notes-data-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .notes-data-controls button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .notes-data-controls button:hover {
+            background-color: var(--main-color);
+        }
+        
+        .notification {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 0 0 10px 10px;
+            color: var(--text-color);
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: top 0.5s ease-in-out;
+            text-align: center;
+        }
+
+        .notification.success {
+            background-color: var(--button-success);
+        }
+
+        .notification.error {
+            background-color: var(--button-danger);
+        }
+        
+        .notification.show {
+            top: 0;
+        }
+
+
+        /* ==================== MEDIA QUERIES (RESPONSIVE) ==================== */
+        @media (max-width: 768px) {
+            .notes-app-container {
+                flex-direction: column;
+                height: auto;
+            }
+            .notes-sidebar {
+                width: 100%;
+                order: 2;
+            }
+            .notes-main-content {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="notification-bar" class="notification"></div>
+    <header class="header-container">
+        <h1>Công Cụ Ghi Chú Nhanh</h1>
+        <p>Nơi lưu trữ những ý tưởng và ghi nhớ quan trọng</p>
+    </header>
+
+    <main>
+        <div class="notes-app-container">
+            <div class="notes-sidebar">
+                <h3>Danh sách ghi chú</h3>
+                <input type="text" id="search-note-input" placeholder="Tìm kiếm ghi chú...">
+                <button id="add-note-btn" class="add-note-btn">Thêm ghi chú mới</button>
+                <ul id="note-list" class="note-list">
+                    </ul>
+                <div class="notes-data-controls">
+                    <button id="export-notes-btn">Xuất</button>
+                    <input type="file" id="import-notes-file" style="display: none;">
+                    <button id="import-notes-btn">Nhập</button>
+                </div>
+            </div>
+            <div class="notes-main-content">
+                <input type="text" id="note-title-input" class="note-title-input" placeholder="Tiêu đề...">
+                <textarea id="note-text-area" placeholder="Bắt đầu ghi chú của bạn ở đây..."></textarea>
+                <div class="notes-controls">
+                    <button id="save-note-btn">Lưu</button>
+                    <button id="delete-note-btn">Xóa ghi chú</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Creative Hub. Bản quyền thuộc về Js Trung Kiên.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const notesTextarea = document.getElementById('note-text-area');
+            const noteTitleInput = document.getElementById('note-title-input');
+            const addNoteBtn = document.getElementById('add-note-btn');
+            const deleteNoteBtn = document.getElementById('delete-note-btn');
+            const noteListEl = document.getElementById('note-list');
+            const searchNoteInput = document.getElementById('search-note-input');
+            const exportNotesBtn = document.getElementById('export-notes-btn');
+            const importNotesBtn = document.getElementById('import-notes-btn');
+            const importNotesFileEl = document.getElementById('import-notes-file');
+            const notificationBar = document.getElementById('notification-bar');
+            const saveNoteBtn = document.getElementById('save-note-btn');
+            
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
+            let selectedNoteId = null;
+
+            function showNotification(message, type) {
+                notificationBar.textContent = message;
+                notificationBar.className = 'notification show ' + type;
+                setTimeout(() => {
+                    notificationBar.classList.remove('show');
+                }, 2000);
+            }
+
+            function saveNotes() {
+                localStorage.setItem('notes', JSON.stringify(notes));
+            }
+
+            function renderNoteList(searchTerm = '') {
+                noteListEl.innerHTML = '';
+                const filteredNotes = notes.filter(note => note.title.toLowerCase().includes(searchTerm.toLowerCase()));
+                
+                if (filteredNotes.length === 0 && notes.length > 0) {
+                    noteListEl.innerHTML = '<li style="text-align: center; color: var(--secondary-text-color);">Không tìm thấy ghi chú</li>';
+                } else if (notes.length === 0) {
+                    noteListEl.innerHTML = '<li style="text-align: center; color: var(--secondary-text-color);">Chưa có ghi chú nào.</li>';
+                }
+
+                filteredNotes.forEach(note => {
+                    const li = document.createElement('li');
+                    li.textContent = note.title;
+                    li.dataset.id = note.id;
+                    li.classList.add(note.id === selectedNoteId ? 'active' : '');
+                    noteListEl.appendChild(li);
+                });
+            }
+
+            function loadNote() {
+                if (selectedNoteId) {
+                    const selectedNote = notes.find(note => note.id === selectedNoteId);
+                    if (selectedNote) {
+                        noteTitleInput.value = selectedNote.title;
+                        notesTextarea.value = selectedNote.content;
+                        deleteNoteBtn.style.display = 'block';
+                        saveNoteBtn.style.display = 'block';
+                    }
+                } else {
+                    noteTitleInput.value = '';
+                    notesTextarea.value = '';
+                    deleteNoteBtn.style.display = 'none';
+                    saveNoteBtn.style.display = 'none';
+                }
+            }
+            
+            function addNewNote() {
+                const newNote = {
+                    id: Date.now(),
+                    title: 'Ghi chú mới',
+                    content: ''
+                };
+                notes.unshift(newNote);
+                selectedNoteId = newNote.id;
+                saveNotes();
+                renderNoteList();
+                loadNote();
+                showNotification('Đã thêm ghi chú mới!', 'success');
+            }
+
+            function saveCurrentNote() {
+                if (selectedNoteId) {
+                    const selectedNote = notes.find(note => note.id === selectedNoteId);
+                    if (selectedNote) {
+                        selectedNote.title = noteTitleInput.value || 'Ghi chú không tiêu đề';
+                        selectedNote.content = notesTextarea.value;
+                        saveNotes();
+                        renderNoteList(searchNoteInput.value);
+                        showNotification('Đã lưu ghi chú!', 'success');
+                    }
+                }
+            }
+
+            function deleteNote() {
+                if (selectedNoteId && confirm('Bạn có chắc chắn muốn xóa ghi chú này không?')) {
+                    notes = notes.filter(note => note.id !== selectedNoteId);
+                    selectedNoteId = notes.length > 0 ? notes[0].id : null;
+                    saveNotes();
+                    renderNoteList();
+                    loadNote();
+                    showNotification('Đã xóa ghi chú!', 'error');
+                }
+            }
+            
+            function exportNotes() {
+                const dataStr = JSON.stringify(notes, null, 2);
+                const blob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'notes-backup.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+            
+            function importNotes() {
+                importNotesFileEl.click();
+            }
+
+            function handleImportFile(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedNotes = JSON.parse(e.target.result);
+                        if (Array.isArray(importedNotes)) {
+                            notes = importedNotes;
+                            selectedNoteId = notes.length > 0 ? notes[0].id : null;
+                            saveNotes();
+                            renderNoteList();
+                            loadNote();
+                        } else {
+                            alert('Tệp tin không hợp lệ.');
+                        }
+                    } catch (error) {
+                        alert('Lỗi khi đọc tệp tin!');
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+
+            addNoteBtn.addEventListener('click', addNewNote);
+            deleteNoteBtn.addEventListener('click', deleteNote);
+            saveNoteBtn.addEventListener('click', saveCurrentNote);
+            noteListEl.addEventListener('click', (e) => {
+                const li = e.target.closest('li');
+                if (li) {
+                    selectedNoteId = parseInt(li.dataset.id);
+                    renderNoteList(searchNoteInput.value);
+                    loadNote();
+                }
+            });
+            noteTitleInput.addEventListener('input', saveCurrentNote);
+            notesTextarea.addEventListener('input', saveCurrentNote);
+            searchNoteInput.addEventListener('input', (e) => renderNoteList(e.target.value));
+            exportNotesBtn.addEventListener('click', exportNotes);
+            importNotesBtn.addEventListener('click', importNotes);
+            importNotesFileEl.addEventListener('change', handleImportFile);
+
+            if (notes.length > 0 && selectedNoteId === null) {
+                selectedNoteId = notes[0].id;
+            }
+
+            renderNoteList();
+            loadNote();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Quản Lý Công Việc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================== CÁC BIẾN VÀ THIẾT LẬP CHUNG ==================== */
+        :root {
+            --bg-color: #12121e;
+            --main-color: #f72585; /* Hồng neon */
+            --accent-color: #4361ee; /* Xanh dương */
+            --card-bg: #1e1e2d;
+            --border-color: #2b2b3b;
+            --text-color: #f0f0f0;
+            --secondary-text-color: #a0a0a0;
+            --button-success: #52b788;
+            --button-danger: #e63964;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--main-color);
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        /* ==================== HEADER & FOOTER ==================== */
+        header.header-container {
+            background-color: var(--card-bg);
+            padding: 40px 20px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header.header-container h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            animation: none;
+        }
+        
+        footer {
+            background-color: var(--card-bg);
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-text-color);
+            border-top: 2px solid var(--accent-color);
+        }
+
+        /* ==================== GIAO DIỆN CHÍNH CỦA CÔNG CỤ ==================== */
+        .task-manager-container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 40px;
+            text-align: center;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            border: 2px solid;
+            border-image: linear-gradient(45deg, var(--main-color), var(--accent-color)) 1;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1em;
+        }
+        
+        .add-btn {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .add-btn:hover {
+            background-color: var(--main-color);
+        }
+
+        #task-list {
+            list-style: none;
+            padding: 0;
+            text-align: left;
+        }
+
+        .task-item {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .task-item.completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+            background-color: #1a1a25;
+        }
+
+        .task-item span {
+            flex: 1;
+        }
+
+        .task-item .remove-btn, .task-item .edit-btn {
+            background-color: var(--button-danger);
+            border: none;
+            color: var(--text-color);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .task-item .edit-btn {
+            background-color: var(--accent-color);
+        }
+        
+        .task-item .remove-btn:hover {
+            background-color: #c92f59;
+        }
+
+        .task-item .edit-btn:hover {
+            background-color: #3b53b8;
+        }
+        
+        .priority-marker {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .priority-high {
+            background-color: var(--button-danger);
+        }
+
+        .priority-medium {
+            background-color: #fca311;
+        }
+
+        .priority-low {
+            background-color: var(--button-success);
+        }
+        
+        .filter-controls {
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-text-color);
+            cursor: pointer;
+            margin: 0 5px;
+            transition: color 0.3s ease;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            color: var(--main-color);
+        }
+
+        /* Vị trí và style cho notification */
+        .notification {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 0 0 10px 10px;
+            color: var(--text-color);
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: top 0.5s ease-in-out;
+            text-align: center;
+        }
+
+        .notification.show {
+            top: 0;
+        }
+
+        .notification.success {
+            background-color: var(--button-success);
+        }
+
+        .notification.error {
+            background-color: var(--button-danger);
+        }
+        
+        /* Style cho thanh tìm kiếm và sắp xếp */
+        .search-sort-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .search-sort-controls input {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 0.9em;
+            margin-right: 10px;
+        }
+        
+        .task-counter {
+            text-align: left;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: var(--secondary-text-color);
+        }
+
+        /* ==================== MEDIA QUERIES (RESPONSIVE) ==================== */
+        @media (max-width: 768px) {
+            .task-manager-container {
+                padding: 20px;
+            }
+            .search-sort-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .search-sort-controls input {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="notification-bar" class="notification"></div>
+    <header class="header-container">
+        <h1>Công Cụ Quản Lý Công Việc</h1>
+        <p>Sắp xếp các ý tưởng và công việc của bạn</p>
+    </header>
+
+    <main>
+        <div class="task-manager-container">
+            <h2>Danh Sách Công Việc</h2>
+            <div class="search-sort-controls">
+                <input type="text" id="search-input" placeholder="Tìm kiếm công việc...">
+                <select id="sort-select">
+                    <option value="newest">Sắp xếp theo: Mới nhất</option>
+                    <option value="oldest">Sắp xếp theo: Cũ nhất</option>
+                    <option value="priority-high">Ưu tiên: Cao nhất</option>
+                    <option value="priority-low">Ưu tiên: Thấp nhất</option>
+                </select>
+            </div>
+            <div class="filter-controls">
+                <button class="filter-btn active" data-filter="all">Tất cả</button>
+                <button class="filter-btn" data-filter="completed">Hoàn thành</button>
+                <button class="filter-btn" data-filter="incomplete">Chưa xong</button>
+            </div>
+            <div class="input-group">
+                <input type="text" id="task-input" placeholder="Nhập công việc mới...">
+                <select id="priority-select">
+                    <option value="low">Ưu tiên thấp</option>
+                    <option value="medium">Ưu tiên trung bình</option>
+                    <option value="high">Ưu tiên cao</option>
+                </select>
+                <button id="add-btn" class="add-btn">Thêm</button>
+            </div>
+            <ul id="task-list">
+                </ul>
+            <div class="task-counter">
+                <span id="total-tasks">Tổng: 0</span> | 
+                <span id="completed-tasks">Hoàn thành: 0</span> | 
+                <span id="incomplete-tasks">Chưa xong: 0</span>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Creative Hub. Bản quyền thuộc về Js Trung Kiên.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const taskInput = document.getElementById('task-input');
+            const prioritySelect = document.getElementById('priority-select');
+            const addBtn = document.getElementById('add-btn');
+            const taskList = document.getElementById('task-list');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const notificationBar = document.getElementById('notification-bar');
+            const searchInput = document.getElementById('search-input');
+            const sortSelect = document.getElementById('sort-select');
+            const totalTasksEl = document.getElementById('total-tasks');
+            const completedTasksEl = document.getElementById('completed-tasks');
+            const incompleteTasksEl = document.getElementById('incomplete-tasks');
+
+            let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            let currentFilter = 'all';
+
+            function showNotification(message, type) {
+                notificationBar.textContent = message;
+                notificationBar.classList.add(type);
+                notificationBar.style.top = '0';
+                setTimeout(() => {
+                    notificationBar.style.top = '-100px';
+                    setTimeout(() => {
+                        notificationBar.classList.remove(type);
+                    }, 500);
+                }, 2000);
+            }
+
+            function updateTaskCount() {
+                const completedCount = tasks.filter(task => task.completed).length;
+                totalTasksEl.textContent = `Tổng: ${tasks.length}`;
+                completedTasksEl.textContent = `Hoàn thành: ${completedCount}`;
+                incompleteTasksEl.textContent = `Chưa xong: ${tasks.length - completedCount}`;
+            }
+
+            function renderTasks() {
+                taskList.innerHTML = '';
+                
+                let filteredTasks = tasks.filter(task => {
+                    if (currentFilter === 'completed') return task.completed;
+                    if (currentFilter === 'incomplete') return !task.completed;
+                    return true;
+                });
+                
+                const searchQuery = searchInput.value.toLowerCase();
+                if (searchQuery) {
+                    filteredTasks = filteredTasks.filter(task => 
+                        task.text.toLowerCase().includes(searchQuery)
+                    );
+                }
+                
+                const sortOrder = sortSelect.value;
+                filteredTasks.sort((a, b) => {
+                    if (sortOrder === 'newest') return b.id - a.id;
+                    if (sortOrder === 'oldest') return a.id - b.id;
+                    if (sortOrder === 'priority-high') {
+                        const priorityMap = { 'high': 3, 'medium': 2, 'low': 1 };
+                        return priorityMap[b.priority] - priorityMap[a.priority];
+                    }
+                    if (sortOrder === 'priority-low') {
+                        const priorityMap = { 'high': 3, 'medium': 2, 'low': 1 };
+                        return priorityMap[a.priority] - priorityMap[b.priority];
+                    }
+                    return 0;
+                });
+
+                filteredTasks.forEach(task => {
+                    const li = document.createElement('li');
+                    li.classList.add('task-item');
+                    if (task.completed) {
+                        li.classList.add('completed');
+                    }
+                    const priorityClass = `priority-${task.priority}`;
+                    li.innerHTML = `
+                        <input type="checkbox" ${task.completed ? 'checked' : ''} data-id="${task.id}">
+                        <span class="priority-marker ${priorityClass}"></span>
+                        <span>${task.text}</span>
+                        <button class="edit-btn" data-id="${task.id}">Sửa</button>
+                        <button class="remove-btn" data-id="${task.id}">×</button>
+                    `;
+                    taskList.appendChild(li);
+                });
+                
+                updateTaskCount();
+            }
+
+            function saveTasks() {
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+            }
+
+            function addTask() {
+                const taskText = taskInput.value.trim();
+                const priority = prioritySelect.value;
+                if (taskText !== '') {
+                    const newTask = { 
+                        id: Date.now(), 
+                        text: taskText, 
+                        completed: false, 
+                        priority: priority 
+                    };
+                    tasks.push(newTask);
+                    taskInput.value = '';
+                    saveTasks();
+                    renderTasks();
+                    showNotification('Công việc đã được thêm!', 'success');
+                } else {
+                    showNotification('Vui lòng nhập công việc!', 'error');
+                }
+            }
+            
+            function editTask(taskId) {
+                const taskIndex = tasks.findIndex(t => t.id == taskId);
+                const newText = prompt('Chỉnh sửa công việc:', tasks[taskIndex].text);
+                if (newText !== null && newText.trim() !== '') {
+                    tasks[taskIndex].text = newText.trim();
+                    saveTasks();
+                    renderTasks();
+                    showNotification('Công việc đã được cập nhật!', 'success');
+                } else if (newText !== null) {
+                    showNotification('Nội dung không được để trống!', 'error');
+                }
+            }
+
+            function handleTaskActions(event) {
+                const target = event.target;
+                const taskId = parseInt(target.dataset.id);
+                
+                if (target.type === 'checkbox') {
+                    const task = tasks.find(t => t.id === taskId);
+                    if (task) {
+                        task.completed = target.checked;
+                        saveTasks();
+                        renderTasks();
+                        if (target.checked) {
+                            showNotification('Hoàn thành công việc!', 'success');
+                        }
+                    }
+                } else if (target.classList.contains('remove-btn')) {
+                    if (confirm('Bạn có chắc chắn muốn xóa công việc này không?')) {
+                        tasks = tasks.filter(t => t.id !== taskId);
+                        saveTasks();
+                        renderTasks();
+                        showNotification('Công việc đã được xóa!', 'success');
+                    }
+                } else if (target.classList.contains('edit-btn')) {
+                    editTask(taskId);
+                }
+            }
+
+            function handleFilter(event) {
+                filterBtns.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                currentFilter = event.target.dataset.filter;
+                renderTasks();
+            }
+
+            addBtn.addEventListener('click', addTask);
+            taskInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+            taskList.addEventListener('click', handleTaskActions);
+            filterBtns.forEach(btn => btn.addEventListener('click', handleFilter));
+            searchInput.addEventListener('input', renderTasks);
+            sortSelect.addEventListener('change', renderTasks);
+
+            // Hiển thị công việc ban đầu
+            renderTasks();
+        });
+    </script>
+</body>
+</html>

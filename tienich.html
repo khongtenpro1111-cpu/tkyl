@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiện Ích & Công Cụ Hữu Ích</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="tienich.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header-container">
+        <div id="auth-container">
+            <div id="logged-out-view">
+                <button id="show-login-btn" class="auth-btn">Đăng nhập</button>
+                <button id="show-register-btn" class="auth-btn">Đăng ký</button>
+            </div>
+            <div id="logged-in-view" style="display: none;">
+                <span id="user-display"></span>
+                <button id="show-profile-btn" class="auth-btn">Thông tin</button>
+                <button id="logout-btn" class="auth-btn">Đăng xuất</button>
+            </div>
+        </div>
+        <div id="header-content">
+            <span class="open-menu-btn">☰</span>
+            <h1>Tiện Ích & Công Cụ Hữu Ích</h1>
+        </div>
+        <p>Kho công cụ giúp công việc của bạn dễ dàng hơn</p>
+    </header>
+
+    <main>
+        <div class="card-grid">
+            <a href="bodemthoigian.html" class="card-link" data-search-terms="bộ đếm thời gian đồng hồ bấm giờ">
+                <div class="challenge-card">
+                    <h2>Bộ Đếm Thời Gian</h2>
+                    <p>Công cụ quản lý thời gian hiệu quả cho mọi thử thách.</p>
+                </div>
+            </a>
+            <a href="botao-bangmau.html" class="card-link" data-search-terms="bộ tạo bảng màu phối màu design">
+                <div class="challenge-card">
+                    <h2>Bộ Tạo Bảng Màu</h2>
+                    <p>Khám phá và kết hợp các màu sắc cho dự án của bạn.</p>
+                </div>
+            </a>
+            <a href="trinhtao-matkhau.html" class="card-link" data-search-terms="trình tạo mật khẩu ngẫu nhiên bảo mật">
+                <div class="challenge-card">
+                    <h2>Trình Tạo Mật Khẩu</h2>
+                    <p>Tạo mật khẩu mạnh và an toàn chỉ với một cú nhấp.</p>
+                </div>
+            </a>
+            <a href="chuyendoi-donvi.html" class="card-link" data-search-terms="chuyển đổi đơn vị tiền tệ đo lường">
+                <div class="challenge-card">
+                    <h2>Chuyển Đổi Đơn Vị</h2>
+                    <p>Chuyển đổi nhanh chóng các đơn vị đo lường khác nhau.</p>
+                </div>
+            </a>
+            <a href="cong-cu-quan-ly-cong-viec.html" class="card-link" data-search-terms="công cụ quản lý công việc to do list">
+                <div class="challenge-card">
+                    <h2>Công Cụ Quản Lý Công Việc</h2>
+                    <p>Sắp xếp các ý tưởng và công việc của bạn một cách hiệu quả.</p>
+                </div>
+            </a>
+            <a href="cong-cu-dem-tu.html" class="card-link" data-search-terms="công cụ đếm từ ký tự văn bản">
+                <div class="challenge-card">
+                    <h2>Công Cụ Đếm Từ</h2>
+                    <p>Đếm số từ, ký tự và đoạn văn bản một cách nhanh chóng.</p>
+                </div>
+            </a>
+            <a href="cong-cu-theo-doi-thoi-quen.html" class="card-link" data-search-terms="công cụ theo dõi thói quen habit tracker">
+                <div class="challenge-card">
+                    <h2>Công Cụ Theo Dõi Thói Quen</h2>
+                    <p>Theo dõi tiến trình và xây dựng thói quen tốt mỗi ngày.</p>
+                </div>
+            </a>
+            <a href="cong-cu-tao-ma-qr.html" class="card-link" data-search-terms="công cụ tạo mã qr qr code">
+                <div class="challenge-card">
+                    <h2>Công Cụ Tạo Mã QR</h2>
+                    <p>Tạo mã QR từ văn bản hoặc đường dẫn chỉ trong vài giây.</p>
+                </div>
+            </a>
+             <a href="cong-cu-tao-chu-ky.html" class="card-link" data-search-terms="công cụ tạo chữ ký signature">
+                <div class="challenge-card">
+                    <h2>Công Cụ Tạo Chữ Ký</h2>
+                    <p>Chọn một font chữ độc đáo để tạo chữ ký của riêng bạn.</p>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Creative Hub. Bản quyền thuộc về Js Trung Kiên.</p>
+    </footer>
+
+    <div id="login-modal" class="modal">...</div>
+    <div id="register-modal" class="modal">...</div>
+    <div id="profile-modal" class="modal">...</div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
